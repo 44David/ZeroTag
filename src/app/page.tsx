@@ -1,10 +1,7 @@
 import Image from "next/image";
 import pool from "./lib/db";
 
-
-
 export default async function Home() {
-
   return (
     <>
       <div className="float-left relative border-r h-screen pr-11">
