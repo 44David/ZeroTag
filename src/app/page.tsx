@@ -1,8 +1,11 @@
 import Image from "next/image";
-import connection from "./lib/db";
+import pool from "./lib/db";
 export default async function Home() {
 
-
+  pool.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
+    if (error) throw error;
+    console.log('Solution is: ', results[0].solution);
+})
 
   return (
     <>
