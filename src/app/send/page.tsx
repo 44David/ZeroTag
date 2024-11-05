@@ -1,23 +1,27 @@
 'use client'
 
-import { FormEvent } from "react"
+import { FormEvent, useState } from "react"
 
 export default function Send() {
-    async function onSubmit(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault();
+    async function onSubmit(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
 
-        const formData = new FormData(event.currentTarget);
+        const formData = new FormData(e.currentTarget);
+
         const response = await fetch('http://localhost:3000/api/send', {
             method: 'POST',
             body: formData,
         });
 
         const data = await response.json()
-    }
+    };
 
     return (
         <form onSubmit={onSubmit}>
-            <input type="text" name="username" />
+            <input 
+                type="text" 
+                name="username"  
+            />
             <button type="submit">Submit</button>
         </form>
     )
