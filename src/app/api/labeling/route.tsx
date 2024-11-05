@@ -1,25 +1,38 @@
 import { NextRequest, NextResponse } from "next/server";
 import pool from "@/app/lib/db"
 
-export async function GET(request) {
+
+
+export async function GET() {
     // await  pool.query('SELECT username FROM test_table', function (err, result, fields) {
     //     if (err) throw err;
     //     return NextResponse.json({'returned query': result})
    
     //@ts-ignore
-    let f;
-    let query_result = await pool.query('SELECT username FROM test_table', f = function (err, result) {
-        if (err) {
-            throw err;
-        } 
-        
-        return result
+    function get_query(callback){
+        pool.query('SELECT username FROM test_table', function (err, result) {
+            if (err) {
+                throw err;
+            } 
+            res = result[0]
+            return callback(result[0]);
+        })
+    }
+
+    let res = '';
+    let res_query
+
+    get_query(res_query = (result) => {
+        res = result
+
     })
 
-   console.log(f)
+    console.log('Outside of callback', res)
 
-//    return NextResponse.json({ 'query': query_result})
-    return NextResponse.json({ 'query': 'Hello'})
+
+    return NextResponse.json({"Hello":"Hello"})
+
+
 
 
 }
