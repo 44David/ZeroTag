@@ -6,12 +6,7 @@ export async function POST(req: NextRequest, res: NextResponse){
 
     console.log("Req.body", data)
 
-    const query = pool.query('INSERT INTO test_table VALUES (?)', data, function (err, result, fields) {
-        if (err) throw err;
-    })
-
-    console.log(query.sql)
-
+    const query = pool.query('INSERT INTO test_table VALUES (?)', data)
 
     return NextResponse.json({"Hello": "Hello"})
 }
