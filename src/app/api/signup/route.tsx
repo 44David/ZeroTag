@@ -2,11 +2,9 @@ import pool from "@/app/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest, res: NextResponse) {
-    const data = await (await req.formData()).get("username")
+    const emailAddr = await ((await req.formData()).get('emailAddr'))
 
-    console.log("Req.body", data)
-
-    const query = pool.query('INSERT INTO test_table (username) VALUES (?)', data)
+    console.log(emailAddr)
 
     return NextResponse.json({"Hello": "Hello"})
 }
