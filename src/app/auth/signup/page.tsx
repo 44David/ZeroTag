@@ -25,7 +25,7 @@ export default function Signup() {
                 <h1>Sign up</h1>
                 <input type="email" id="email-addr" className="text-black border-2" name="emailAddr"></input>
                 
-                <input type="password" id="pass" className="text-black"></input>
+                <input type="password" id="pass" name="password" className="text-black"></input>
 
                 <button type="submit">Submit</button>
             </form>
