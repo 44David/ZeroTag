@@ -7,14 +7,11 @@ const saltRounds = 10;
 
 
 export async function POST(req: NextRequest, res: NextResponse) {
-    const password = await ((await req.formData()))
-
-
-    console.log(password)
+    const password = await ((await req.formData()).get("password"))
 
     bcrypt.genSalt(saltRounds, function(err, salt) {
         bcrypt.hash(password, salt, function(err, hash) {
-            // TODO store the hash in database
+            const query = pool.query('INSERT INTO test_table (username) VALUES (?)', hash)
         })
     })
 
