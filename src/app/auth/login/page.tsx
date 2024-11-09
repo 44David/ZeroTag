@@ -15,17 +15,20 @@ export default function Login() {
         })
         
         const data = await response.json()
+
     }
+
+    
 
     return (
         <div>
             <form onSubmit={onSubmit}>
 
-                <h1>Sign up</h1>
+                <h1>Login</h1>
                 <input type="email" id="email-addr" className="text-black border-2" name="email"></input>
                 
                 <input type="password" id="pass" name="password" className="text-black"></input>
-
+                
                 <button type="submit">Submit</button>
             </form>
 

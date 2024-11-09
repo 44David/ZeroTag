@@ -13,21 +13,27 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     const password = formData.get("password")
     const email = formData.get("email")
+    
 
     if (validator.isEmail(email)) {
 
         bcrypt.genSalt(saltRounds, function(err:any, salt:any) {
                 
             bcrypt.hash(password, salt, function(err:any, hash:any) {
+                try {
 
-                pool.query("INSERT INTO users (email_address, password) VALUES (?, ?)", [email, hash]);
+                    pool.query("INSERT INTO users (email_address, password) VALUES (?, ?)", [email, hash]);
+                    return NextResponse.json({ status: 200 }) 
 
+                } catch(err:any) {
+
+                    console.log(err.message)
+                    return NextResponse.json({ error: "Account associated with email address already exists" },{ status: 401 })
+                }
             })
         })
         
-        return NextResponse.json({ status: 200 })
-
-    }  else {
+    } else {
 
         return NextResponse.json({ error: "Not a valid email address." }, { status: 500 })
     };
