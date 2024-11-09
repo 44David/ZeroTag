@@ -23,7 +23,7 @@ export default function Signup() {
             <form onSubmit={onSubmit}>
 
                 <h1>Sign up</h1>
-                <input type="email" id="email-addr" className="text-black border-2" name="emailAddr"></input>
+                <input type="email" id="email-addr" className="text-black border-2" name="email"></input>
                 
                 <input type="password" id="pass" name="password" className="text-black"></input>
 

@@ -1,19 +1,31 @@
 import pool from "@/app/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 const bcrypt = require('bcrypt')
+const validator = require('validator')
 
 // bcrypt variables 
 const saltRounds = 10;
 
 
 export async function POST(req: NextRequest, res: NextResponse) {
-    const password = await ((await req.formData()).get("password"))
+    const formData = await req.formData()
 
-    bcrypt.genSalt(saltRounds, function(err, salt) {
-        bcrypt.hash(password, salt, function(err, hash) {
-            const query = pool.query('INSERT INTO test_table (username) VALUES (?)', hash)
+
+    const password = formData.get("password")
+    const email = formData.get("email")
+
+    if (validator.isEmail(email)) {
+
+    }
+
+    bcrypt.genSalt(saltRounds, function(err:any, salt:any) {
+        bcrypt.hash(password, salt, function(err:any, hash:any) {
+            pool.query("INSERT INTO users (email_address, password) VALUES (?, ?)", [email, hash])
         })
     })
+
+
+
 
     return NextResponse.json({"Hello": "Hello"})
 }
