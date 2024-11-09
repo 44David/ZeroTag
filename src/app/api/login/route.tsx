@@ -11,12 +11,20 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     const [rows] = await pool.query('SELECT * FROM users WHERE email_address=(?)', email);
 
-
+    //@ts-ignore
     const [row] = rows;
-    const q_email = row.email_address
+    const queryEmail = row.email_address;
+    const hashedQueryEmail = row.password;
 
-    console.log(q_email)
+    if (bcrypt.compareSync(password, hashedQueryEmail) && email == queryEmail) {
+        return NextResponse.json({ "message": "Success" }, { status: 200 })
+    }
+    else if (!(bcrypt.compareSync(password, hashedQueryEmail)) && email == queryEmail) {
+        return NextResponse.json({ "message": "Password does not match "}, { status: 401 });
+    }
+    else if (!(email == queryEmail)) {
+        return NextResponse.json({ "message": "Account not found" }, { status: 401 })
+    }
 
 
-    return NextResponse.json({"Hello": "Hello"})
 }
