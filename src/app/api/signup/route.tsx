@@ -27,11 +27,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
         
         return NextResponse.json({ status: 200 })
 
-    }  {
+    }  else {
 
-        console.log("Here")
         return NextResponse.json({ error: "Not a valid email address." }, { status: 500 })
     };
 
    
-}
+};

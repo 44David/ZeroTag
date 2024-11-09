@@ -13,14 +13,14 @@ export default function Send() {
             body: formData,
         });
 
-        const data = await response.json()
+        const data = await response.json();
     };
 
     return (
         <form onSubmit={onSubmit}>
             <input 
                 type="text" 
-                name="username"  
+                name=""  
             />
             <button type="submit">Submit</button>
         </form>
