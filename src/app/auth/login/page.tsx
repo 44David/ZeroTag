@@ -4,6 +4,7 @@ import { FormEvent } from "react"
 
 export default function Login() {
 
+
     async function onSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
@@ -15,10 +16,7 @@ export default function Login() {
         })
         
         const data = await response.json()
-
     }
-
-    
 
     return (
         <div>
@@ -28,7 +26,6 @@ export default function Login() {
                 <input type="email" id="email-addr" className="text-black border-2" name="email"></input>
                 
                 <input type="password" id="pass" name="password" className="text-black"></input>
-                
                 <button type="submit">Submit</button>
             </form>
 

@@ -23,10 +23,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
                 try {
 
                     pool.query("INSERT INTO users (email_address, password) VALUES (?, ?)", [email, hash]);
-                    return NextResponse.json({ status: 200 }) 
+                    return NextResponse.json({ "message": "Signed up successfully" }, { status: 200 } ) 
 
                 } catch(err:any) {
-
                     console.log(err.message)
                     return NextResponse.json({ error: "Account associated with email address already exists" },{ status: 401 })
                 }

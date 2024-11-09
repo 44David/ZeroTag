@@ -14,14 +14,18 @@ export default function Send() {
         });
 
         const data = await response.json();
+        
     };
 
     return (
         <form onSubmit={onSubmit}>
+            
             <input 
                 type="text" 
-                name=""  
+                name="input-labels"
+                placeholder="Input Labels"  
             />
+            
             <button type="submit">Submit</button>
         </form>
     )
