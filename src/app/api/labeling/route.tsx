@@ -2,9 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import pool from "@/app/lib/db"
 
 export async function GET() {
-    const [rows] = await pool.query('SELECT * FROM test_table')
-    console.log(rows)
+    const [rows] = await pool.query("SELECT * FROM labels");
 
-    return NextResponse.json({"test": "test"})
+    //@ts-ignore
+    const [row] = rows;
+
+    const queryLabels = row.input_labels;
+
+    return NextResponse.json({"Labels": queryLabels}, {status: 200});
 
 }
