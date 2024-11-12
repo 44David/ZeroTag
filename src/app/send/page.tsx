@@ -1,8 +1,10 @@
 'use client'
 
-import { FormEvent } from "react"
+import { FormEvent } from "react";
+
 
 export default function Send() {
+
     async function onSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
 

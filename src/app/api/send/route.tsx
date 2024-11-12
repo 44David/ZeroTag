@@ -1,11 +1,15 @@
 import pool from "@/app/lib/db";
 import { NextRequest, NextResponse } from "next/server";
+const jwt = require('jsonwebtoken');
 
 export async function POST(req: NextRequest, res: NextResponse) {
+
+    
 
     const formData = await req.formData();
 
     const inputLabels = formData.get("input-labels")
+
 
     try {
         pool.query("INSERT INTO labels (input_labels) VALUES (?)", inputLabels)
