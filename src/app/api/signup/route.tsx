@@ -27,14 +27,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
             })
         });
 
-        const jwtToken = jwt.sign({email}, 'privatekey', { expiresIn: '1h'}, (err:any, token:any) => {
-            if (err) {
-                console.log(err)
-            }
-            return token;
-        })      
+        const jwtToken = jwt.sign({email}, 'privatekey', { expiresIn: '1h'})
+
         
-        console.log(jwtToken)
         return NextResponse.json({ "message": "Signed up successfully" }, { status: 200 })
 
     }  else {
