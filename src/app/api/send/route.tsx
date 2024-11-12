@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 export async function POST(req: NextRequest, res: NextResponse) {
 
     
-
     const formData = await req.formData();
 
     const inputLabels = formData.get("input-labels")
