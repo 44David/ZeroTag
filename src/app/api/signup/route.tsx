@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
 import { createSession } from "@/app/lib/session";
+import { cookies } from "next/headers";
 
 // bcrypt variables 
 const saltRounds = 10;
@@ -21,15 +22,16 @@ export async function POST(req: NextRequest, res: NextResponse) {
         bcrypt.genSalt(saltRounds, function(err:any, salt:any) {  
             bcrypt.hash(password, salt, async function(err:any, hash:any) {
 
- 
+                // from lib, should create a cookie.
+                await createSession(email);
+                const cookieStore = await cookies();
 
-                pool.query("INSERT INTO users (email_address, password) VALUES (?, ?)", [email, hash]);
+                const sessionValue = cookieStore.get('session')?.value;
+
+                pool.query("INSERT INTO users (email_address, password, session_value) VALUES (?, ?, ?)", [email, hash, sessionValue]);
 
             })
         });
-        
-        // from lib, should create a cookie.
-        createSession(email);
         
         return NextResponse.json({ "message": "Signed up successfully" }, { status: 200 })
 

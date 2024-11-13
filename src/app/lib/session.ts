@@ -1,3 +1,5 @@
+'use server'
+
 import { cookies } from 'next/headers';
 const bcrypt = require('bcrypt');
 
@@ -18,11 +20,13 @@ export async function createSession(email:any) {
         httpOnly: true,
         secure: true,
         expires: expiresAt,
+        domain: 'http://locahost:3000/',
         sameSite: 'lax',
         name: 'session',
-      })
+      });
 
-  }
+};
+
 
 
 
