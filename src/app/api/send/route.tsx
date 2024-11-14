@@ -1,6 +1,7 @@
 import pool from "@/app/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { getEmail } from "@/app/lib/session";
 
 export async function POST(req: NextRequest, res: NextResponse) {
 
@@ -8,15 +9,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     const inputLabels = formData.get("input-labels")
 
-    const cookieStore = await cookies();
-    const sessionValue = cookieStore.get('session')?.value;
-
-
-    const [rows] = await pool.query('SELECT * FROM users WHERE session_value=(?)', sessionValue);
-
-    //@ts-ignore
-    const [row] = rows;
-    const queryEmail = row.email_address;
+    const queryEmail = await getEmail();
 
     try {
         pool.query("INSERT INTO labels (input_labels, email_address) VALUES (?, ?)", [inputLabels, queryEmail])

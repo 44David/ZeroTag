@@ -1,28 +1,18 @@
-const bcrypt = require('bcrypt');
+import pool from "./db";
 import { cookies } from "next/headers";
 
-export async function createSession(email:any) {
-
-  const saltRounds = 10;
-
-
-    const salt = await bcrypt.genSalt(saltRounds);
-    const emailHash = await bcrypt.hash(email, salt);
-
-    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-  
-
+export async function getEmail() {
+    
     const cookieStore = await cookies();
 
-    cookieStore.set({
-        name: 'session',
-        value: emailHash,
-        expires: expiresAt,
-        sameSite: 'lax', 
-      });
+    const sessionValue = cookieStore.get('session')?.value;
+    
+    const [rows] = await pool.query('SELECT * FROM users WHERE session_value=(?)', sessionValue);
 
-};
+    //@ts-ignore
+    const [row] = rows;
+    const queryEmail = row.email_address;
 
+    return queryEmail
 
-
-
+}
