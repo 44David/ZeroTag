@@ -15,6 +15,7 @@ export async function getEmail() {
         const queryEmail = row.email_address;
 
         return queryEmail
+        
     } catch (error) {
         return "Not Signed In"
     }

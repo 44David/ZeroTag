@@ -14,14 +14,22 @@ export async function POST(req: NextRequest, res: NextResponse) {
     //@ts-ignore
     const [row] = rows;
     const queryEmail = row.email_address;
-    const hashedQueryEmail = row.password;
+    const hashedQueryPassword = row.password;
+    const sessionValue = row.session_value;
 
-    if (bcrypt.compareSync(password, hashedQueryEmail) && email == queryEmail) {
-        return NextResponse.json({ "message": "Success" }, { status: 200 })
+
+    if (bcrypt.compareSync(password, hashedQueryPassword) && email == queryEmail) {
+        const response = NextResponse.json({ "message": "Success" }, { status: 200 });
+        response.headers.set('Set-Cookie', `session=${sessionValue}`);
+        
+        return response
     }
-    else if (!(bcrypt.compareSync(password, hashedQueryEmail)) && email == queryEmail) {
+
+    else if (!(bcrypt.compareSync(password, hashedQueryPassword)) && email == queryEmail) {
+
         return NextResponse.json({ "message": "Password does not match "}, { status: 401 });
     }
+
     else if (!(email == queryEmail)) {
         return NextResponse.json({ "message": "Account not found" }, { status: 401 })
     }

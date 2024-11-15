@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { getEmail } from "./lib/session";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -21,11 +20,10 @@ export const metadata: Metadata = {
 
 async function Navbar() {
 
-  const email = await getEmail();
 
   return (
     <nav className="flex justify-between w-full p-4 mb-4 text-xl border-b-4">
-      <div>{email}</div>
+      <div>Hello</div>
 
     </nav>
   )
