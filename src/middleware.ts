@@ -6,9 +6,10 @@ export async function middleware(req: NextRequest) {
 
     if (cookieStore.has('session')) {
         return NextResponse.next()
-    } else {
-        return NextResponse.redirect(new URL('/auth/signup', req.url))
-    }
+    } 
+
+    return NextResponse.redirect(new URL('/auth/signup', req.url))
+    
     
 }
 
