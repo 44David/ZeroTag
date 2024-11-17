@@ -1,5 +1,6 @@
 'use client'
 
+import { redirect } from "next/navigation";
 import { FormEvent } from "react"
 
 export default function Signup() {
@@ -15,8 +16,8 @@ export default function Signup() {
         })
         
         const data = await response.json();
-
-        console.log(data)
+        
+        redirect('/')
     }
 
     return (

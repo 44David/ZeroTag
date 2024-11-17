@@ -29,7 +29,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
         const response = NextResponse.json({ "message": "Signed up successfully" }, { status: 200 })
 
         response.headers.set('Set-Cookie', `session=${sessionValue}; Path=/`)
-
         return response
 
     }  else {

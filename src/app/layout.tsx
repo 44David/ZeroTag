@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { cookies } from "next/headers";
+import { getEmail } from "./lib/session";
+import Link from "next/link";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -19,11 +22,18 @@ export const metadata: Metadata = {
 };
 
 async function Navbar() {
-
-
+  const cookieStore = await cookies();
+  let email;
+  if (cookieStore.has('session')) {
+    email = true;
+  } else {
+    email = false;
+  }
   return (
     <nav className="flex justify-between w-full p-4 mb-4 text-xl border-b-4">
-      <div>Hello</div>
+
+      <div>{email ?  getEmail() : <Link href={"/auth/signup"}>Sign In</Link>}</div>
+
 
     </nav>
   )
