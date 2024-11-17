@@ -20,8 +20,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     if (bcrypt.compareSync(password, hashedQueryPassword) && email == queryEmail) {
         const response = NextResponse.json({ "message": "Success" }, { status: 200 });
-        response.headers.set('Set-Cookie', `session=${sessionValue}`);
-        
+        response.headers.set('Set-Cookie', `session=${sessionValue}; Path=/`);
         return response
     }
 
