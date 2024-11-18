@@ -17,7 +17,8 @@ export default function Signup() {
         
         const data = await response.json();
         
-        redirect('/')
+        location.reload()
+
     }
 
     return (

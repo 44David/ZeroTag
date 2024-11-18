@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { getEmail } from "./lib/session";
 import Link from "next/link";
 
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -34,7 +35,7 @@ async function Navbar() {
     <nav className="flex justify-between w-full p-4 mb-4 text-xl border-b-4">
 
       <div>{email ?  getEmail() : <Link href={"/auth/signup"}>Sign In</Link>}</div>
-      {email ? <button>Log out</button> : <div></div>}
+      {email ? <button><Link href='/logout'>Log Out</Link></button> : <div></div>}
 
     </nav>
   )

@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import pool from "./db";
 import { cookies } from "next/headers";
 
