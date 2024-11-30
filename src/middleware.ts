@@ -3,10 +3,10 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function middleware(req: NextRequest) {
 
-    if (req.nextUrl.pathname === "/logout") {
-        const response = NextResponse.redirect(new URL('/auth/signup', req.url));
-        response.cookies.delete('session');
-    }
+    // if (req.nextUrl.pathname === "/logout") {
+    //     const response = NextResponse.redirect(new URL('/auth/signup', req.url));
+    //     response.headers.delete('session');
+    // }
 
     const cookieStore = await req.cookies;
 
