@@ -23,9 +23,7 @@ export default function Send() {
         <form onSubmit={onSubmit}>
             
             <input 
-                type="text" 
-                name="input-labels"
-                placeholder="Input Labels"  
+                type="file" 
             />
             
             <button type="submit">Submit</button>

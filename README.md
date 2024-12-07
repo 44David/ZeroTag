@@ -1,1 +1,3 @@
-
+- [ ] - Delete cookies on logout
+- [ ] - Connect S3 bucket for images
+- [ ] - Connect model for image labeling
