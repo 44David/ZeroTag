@@ -1,3 +1,3 @@
-- [ ] - Delete cookies on logout
 - [ ] - Connect S3 bucket for images
-- [ ] - Connect model for image labeling
+- [ ] - Fetch S3 image link and input into ollama model
+- [ ] - Delete cookies on logout
