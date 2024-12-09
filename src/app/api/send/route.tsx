@@ -9,7 +9,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     const formData = await req.formData();
 
-    const inputLabels = formData.get("input-labels")
+    const inputLabels = formData.get("input-labels");
 
     const queryEmail = await getEmail();
 
@@ -17,17 +17,20 @@ export async function POST(req: NextRequest, res: NextResponse) {
         pool.query("INSERT INTO labels (input_labels, email_address) VALUES (?, ?)", [inputLabels, queryEmail])
         
         const response = await ollama.chat({
-            model: 'llama3.2-vision',
+            model: 'llama3.2-vision:11b',
             messages: [{
-                role: 'user',
-                content: 'What do you see in this image?',
-                // images: ['images.jpg']
+              role: 'user',
+              content: 'What is in this image?',
+              images: [],
             }]
-        })
+          })
+
+        console.log(response)
 
         return NextResponse.json({"message": "Success"}, { status: 200 })
 
     } catch (err:any) {
+
         return NextResponse.json({ error: "Could not insert input label values" }, {status: 500})
     }
     
