@@ -1,12 +1,20 @@
 'use client'
 
 import { FormEvent, useState } from "react";
+import Image from "next/image";
 
+export default function Upload() {
+    const [isChecked, setIsChecked] = useState(false);
+    const [file, setFile] = useState('');
 
-export default function Send() {
+    async function handleChange(event:any) {
+        setFile(URL.createObjectURL(event.target.files[0]))
+    }
 
     async function onSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
+
+        s3Upload();
 
         const formData = new FormData(e.currentTarget);
         console.log('formData', formData)
@@ -20,7 +28,11 @@ export default function Send() {
         
     };
 
-    const [isChecked, setIsChecked] = useState(false);
+    async function s3Upload() {
+        
+    }
+
+
 
     return (
         <form onSubmit={onSubmit}>
@@ -47,7 +59,9 @@ export default function Send() {
 
                 <label htmlFor="box">Automatically create labels?</label>
 
-                <input type="file" className="block"/>
+                <input type="file" className="block" onChange={handleChange}/>
+
+                <Image src={file} width={250} height={500} alt="User provided image"/>
 
                 <button type="submit" className="block">Submit</button>
 
