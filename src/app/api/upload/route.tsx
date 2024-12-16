@@ -16,6 +16,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
 
     const formData = await req.formData();
+    const file = await formData?.get("image");
 
     let inputLabels;
     if (formData.has('input-labels')) {
@@ -26,30 +27,31 @@ export async function POST(req: NextRequest, res: NextResponse) {
     
 
 
-    console.log(formData.get('file'))
+    console.log(formData)
 
     const queryEmail = await getEmail();
+    
 
     //@ts-ignore
-    const s3Client = new S3Client({
-      region,
-      credentials: {
-      accessKeyId,
-      secretAccessKey
-      }
-    })
+    // const s3Client = new S3Client({
+    //   region,
+    //   credentials: {
+    //   accessKeyId,
+    //   secretAccessKey
+    //   }
+    // })
 
-    async function s3Upload() {
-      const uploadParams = {
-        Bucket: bucketName, 
-        Body: 
-        Key: 
-        ContentType: 
-      }
+    // async function s3Upload() {
+    //   const uploadParams = {
+    //     Bucket: bucketName, 
+    //     Body: 
+    //     Key: 
+    //     ContentType: 
+    //   }
       
-      return s3Client.send(new PutObjectCommand(uploadParams))
+    //   return s3Client.send(new PutObjectCommand(uploadParams))
 
-    };
+    // };
 
     try {
         pool.query("INSERT INTO labels (input_labels, email_address) VALUES (?, ?)", [inputLabels, queryEmail])
@@ -59,7 +61,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
             messages: [{
               role: 'user',
               content: 'What is in this image?',
-              images: [],
+              images: [file],
             }]
           })
 

@@ -11,7 +11,7 @@ export default function Upload() {
         e.preventDefault();
 
         const formData = new FormData(e.currentTarget);
-        console.log('formData', formData)
+        formData.append("image", file)
 
         const response = await fetch('http://localhost:3000/api/upload', {
             method: 'POST',
@@ -38,7 +38,7 @@ export default function Upload() {
                 className="block"
             />
 
-            <input 
+            <input
                 type='checkbox'
                 value="auto-label"
                 name="box"
@@ -50,7 +50,7 @@ export default function Upload() {
 
             <input type="file" className="block" onChange={handleChange}/>
 
-            <Image src={file} width={250} height={500} alt="User provided image"/>
+            <Image src={file} width={250} height={500} alt=""/>
 
             <button type="submit" className="block">Submit</button>
 
