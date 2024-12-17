@@ -24,6 +24,8 @@ export default function Upload() {
 
     async function handleChange(event:any) {
         setFile(URL.createObjectURL(event.target.files[0]))
+
+        return event.target.files[0].blob()
     };
 
     return (

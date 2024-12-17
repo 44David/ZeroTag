@@ -16,18 +16,13 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
 
     const formData = await req.formData();
-    const file = await formData?.get("image");
+    const file = await formData.get("image");
+
+    console.log('file', file)
 
     let inputLabels;
-    if (formData.has('input-labels')) {
-      inputLabels = formData?.get("input-labels");
-    } else {
-      inputLabels = ""
-    }
+    formData.has('input-labels') ? inputLabels = formData.get("input-labels") : inputLabels = ""
     
-
-
-    console.log(formData)
 
     const queryEmail = await getEmail();
     
@@ -61,7 +56,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
             messages: [{
               role: 'user',
               content: 'What is in this image?',
-              images: [file],
+              images: [],
             }]
           })
 

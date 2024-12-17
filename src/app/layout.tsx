@@ -35,7 +35,22 @@ async function Navbar() {
     <nav className="flex justify-between w-full p-4 mb-4 text-xl border-b-4">
 
       <div>{email ?  getEmail() : <Link href={"/auth/signup"}>Sign In</Link>}</div>
-      {email ? <button><Link href={'/logout'}>Log Out</Link></button> : <div></div>}
+      {
+      email ? 
+      
+      <>
+        <Link href={'/upload'}>Upload</Link>
+        <Link href='labeling'>Files</Link>
+        <button><Link href={'/logout'}>Log Out</Link></button> 
+
+      </>
+
+      : 
+      
+      <div></div>
+      
+      }
+
 
     </nav>
   )
