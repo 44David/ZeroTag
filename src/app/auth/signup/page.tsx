@@ -1,5 +1,7 @@
 'use client'
 
+import { Button } from "@/components/ui/button";
+import { KeyRound, User } from "lucide-react";
 import { redirect } from "next/navigation";
 import { FormEvent } from "react"
 
@@ -24,14 +26,18 @@ export default function Signup() {
     return (
 
         <div>
-            <form onSubmit={onSubmit}>
+            <form onSubmit={onSubmit} className="">
 
-                <h1>Sign up</h1>
-                <input type="email" id="email-addr" className="text-black border-2" name="email"></input>
-                
-                <input type="password" id="pass" name="password" className="text-black"></input>
+                <div className="h-screen flex items-center justify-center flex-col space-y-2">
 
-                <button type="submit">Submit</button>
+                    <User />
+                    <input type="email" id="email-addr" className="text-black border-2 rounded-md p-2" name="email" placeholder="Email Address"></input>
+                    <KeyRound />
+                    <input type="password" id="pass" name="password" className="text-black border-2 rounded-md p-2" placeholder= "Password"></input>
+
+                    <Button>Sign Up</Button>
+                </div>
+
             </form>
 
 

@@ -1,5 +1,7 @@
 'use client'
 
+import { Button } from "@/components/ui/button";
+import { KeyRound, User } from "lucide-react";
 import { FormEvent } from "react"
 
 export default function Login() {
@@ -19,18 +21,17 @@ export default function Login() {
     }
 
     return (
-        <div>
-            <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit}>
+            <div className="h-screen flex items-center justify-center flex-col space-y-2">
 
-                <h1>Login</h1>
-                <input type="email" id="email-addr" className="text-black border-2" name="email"></input>
-                
-                <input type="password" id="pass" name="password" className="text-black"></input>
-                <button type="submit">Submit</button>
-            </form>
+                <User />
+                <input type="email" id="email-addr" className="text-black border-2 rounded-md p-2" name="email" placeholder="Email Address"></input>
+                <KeyRound />
+                <input type="password" id="pass" name="password" className="text-black border-2 rounded-md p-2" placeholder= "Password"></input>
 
-
-        </div>
+                <Button>Log In</Button>
+            </div>
+        </form>
 
     )
 }
