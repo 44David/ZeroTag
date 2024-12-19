@@ -22,7 +22,7 @@ export default function Login() {
 
     return (
         <form onSubmit={onSubmit}>
-            <div className="h-screen flex items-center justify-center flex-col space-y-2">
+            <div className="h-96 flex items-center justify-center flex-col space-y-2">
 
                 <User />
                 <input type="email" id="email-addr" className="text-black border-2 rounded-md p-2" name="email" placeholder="Email Address"></input>

@@ -3,17 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getEmail } from "@/app/lib/session";
 import ollama from 'ollama';
-import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3"
 import dotenv from 'dotenv'
 
 
 export async function POST(req: NextRequest, res: NextResponse) {
     dotenv.config();
-
-    const bucketName = process.env.AWS_BUCKET_NAME
-    const region = process.env.AWS_BUCKET_REGION
-    const accessKeyId = process.env.AWS_ACCESS_KEY
-    const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
 
     const formData = await req.formData();
     const file = await formData.get("image");
@@ -26,27 +20,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     const queryEmail = await getEmail();
     
-
-    //@ts-ignore
-    // const s3Client = new S3Client({
-    //   region,
-    //   credentials: {
-    //   accessKeyId,
-    //   secretAccessKey
-    //   }
-    // })
-
-    // async function s3Upload() {
-    //   const uploadParams = {
-    //     Bucket: bucketName, 
-    //     Body: 
-    //     Key: 
-    //     ContentType: 
-    //   }
-      
-    //   return s3Client.send(new PutObjectCommand(uploadParams))
-
-    // };
 
     try {
         pool.query("INSERT INTO labels (input_labels, email_address) VALUES (?, ?)", [inputLabels, queryEmail])

@@ -2,10 +2,18 @@
 
 import { FormEvent, useState } from "react";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3"
 
 export default function Upload() {
     const [isChecked, setIsChecked] = useState(false);
     const [file, setFile] = useState('');
+
+
+    const bucketName = process.env.AWS_BUCKET_NAME
+    const region = process.env.AWS_BUCKET_REGION
+    const accessKeyId = process.env.AWS_ACCESS_KEY
+    const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
 
     async function onSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -28,6 +36,27 @@ export default function Upload() {
         return event.target.files[0].blob()
     };
 
+    //@ts-ignore
+    const s3Client = new S3Client({
+      region,
+      credentials: {
+      accessKeyId,
+      secretAccessKey
+      }
+    })
+
+    async function s3Upload() {
+      const uploadParams = {
+        Bucket: bucketName, 
+        Body: file
+        Key: 
+        Content: 
+      };
+      
+      return s3Client.send(new PutObjectCommand(uploadParams))
+
+    };
+
     return (
         <form onSubmit={onSubmit}>
 
@@ -37,7 +66,7 @@ export default function Upload() {
                 placeholder="Input Labels"  
                 id="input-labels"
                 disabled={isChecked}
-                className="block"
+                className="block rounded-md border-2"
             />
 
             <input
@@ -54,8 +83,7 @@ export default function Upload() {
 
             <Image src={file} width={250} height={500} alt=""/>
 
-            <button type="submit" className="block">Submit</button>
-
+            <Button className="block">Submit</Button>
 
         </form>
     )
