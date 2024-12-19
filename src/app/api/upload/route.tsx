@@ -10,7 +10,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     dotenv.config();
 
     const formData = await req.formData();
-    const file = await formData.get("image");
+    const file = await formData.get("file");
 
     console.log('file', file)
 

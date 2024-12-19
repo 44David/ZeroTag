@@ -3,7 +3,8 @@
 import { FormEvent, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3"
+import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+require('dotenv').config()
 
 export default function Upload() {
     const [isChecked, setIsChecked] = useState(false);
@@ -15,11 +16,38 @@ export default function Upload() {
     const accessKeyId = process.env.AWS_ACCESS_KEY
     const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
 
-    async function onSubmit(e: FormEvent<HTMLFormElement>) {
+    //@ts-ignore
+    const s3Client = new S3Client({
+      region,
+      credentials: {
+      accessKeyId,
+      secretAccessKey
+      }
+    })
+
+    async function s3Upload(fileBody:any) {
+      const uploadParams = {
+        Bucket: bucketName, 
+        Body: fileBody,
+        Key: "image",
+      };
+      
+      return s3Client.send(new PutObjectCommand(uploadParams))
+
+    };
+
+
+    async function onSubmit(e: any) {
+
         e.preventDefault();
 
-        const formData = new FormData(e.currentTarget);
-        formData.append("image", file)
+        const formData = new FormData();
+        const reader = new FileReader();
+
+        const fileInput = e.target.elements.fileUpload
+        const allFiles = fileInput.files
+
+        s3Upload(allFiles)
 
         const response = await fetch('http://localhost:3000/api/upload', {
             method: 'POST',
@@ -32,30 +60,9 @@ export default function Upload() {
 
     async function handleChange(event:any) {
         setFile(URL.createObjectURL(event.target.files[0]))
+    }
 
-        return event.target.files[0].blob()
-    };
 
-    //@ts-ignore
-    const s3Client = new S3Client({
-      region,
-      credentials: {
-      accessKeyId,
-      secretAccessKey
-      }
-    })
-
-    async function s3Upload() {
-      const uploadParams = {
-        Bucket: bucketName, 
-        Body: file
-        Key: 
-        Content: 
-      };
-      
-      return s3Client.send(new PutObjectCommand(uploadParams))
-
-    };
 
     return (
         <form onSubmit={onSubmit}>
@@ -79,11 +86,11 @@ export default function Upload() {
 
             <label htmlFor="box">Automatically create labels?</label>
 
-            <input type="file" className="block" onChange={handleChange}/>
+            <input type="file" id="fileUpload" className="block" onChange={handleChange}/>
 
             <Image src={file} width={250} height={500} alt=""/>
 
-            <Button className="block">Submit</Button>
+            <Button className="block" type="submit">Submit</Button>
 
         </form>
     )
