@@ -4,36 +4,36 @@ import { FormEvent, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
-require('dotenv').config();
+// import dotenv from 'dotenv'
 
 export default function Upload() {
     const [isChecked, setIsChecked] = useState(false);
     const [file, setFile] = useState('');
 
+    // dotenv.config()
 
-    // const bucketName = process.env.BUCKET_NAME
-    // const bucketRegion = process.env.BUCKET_REGION
-    // const accessKeyId = process.env.ACCESS_KEY
-    // const secretAccessKey = process.env.SECRET_ACCESS_KEY
-    const { BUCKET_NAME, BUCKET_REGION, ACCESS_KEY, SECRET_ACCESS_KEY } = process.env
+    const bucketName = process.env.NEXT_PUBLIC_BUCKET_NAME
+    const bucketRegion = process.env.NEXT_PUBLIC_BUCKET_REGION
+    const accessKeyId = process.env.NEXT_PUBLIC_ACCESS_KEY
+    const secretAccessKey = process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY
 
     //@ts-ignore
-    const s3Client = new S3Client({
+    const client = new S3Client({
+      region: bucketRegion,
       credentials: {
-        accessKeyId: ACCESS_KEY,
-        secretAccessKey: SECRET_ACCESS_KEY,
+        accessKeyId: accessKeyId,
+        secretAccessKey: secretAccessKey,
       },
-    region: BUCKET_REGION,
     })
 
     async function s3Upload(fileBody:any) {
       const uploadParams = {
-        Bucket: BUCKET_NAME, 
+        Bucket: bucketName, 
         Body: fileBody,
         Key: "image",
       };
-      
-      return s3Client.send(new PutObjectCommand(uploadParams))
+      console.log('got here')
+      return client.send(new PutObjectCommand(uploadParams))
 
     };
 
@@ -47,6 +47,9 @@ export default function Upload() {
 
         const fileInput = e.target.elements.fileUpload
         const allFiles = fileInput.files
+
+
+
 
         s3Upload(allFiles)
 
