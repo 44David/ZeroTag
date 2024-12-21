@@ -3,16 +3,45 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getEmail } from "@/app/lib/session";
 import ollama from 'ollama';
-import dotenv from 'dotenv'
+import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand, Type } from "@aws-sdk/client-s3";
+
 
 
 export async function POST(req: NextRequest, res: NextResponse) {
-    dotenv.config();
+
+    const bucketName = process.env.NEXT_PUBLIC_BUCKET_NAME
+    const bucketRegion = process.env.NEXT_PUBLIC_BUCKET_REGION
+    const accessKeyId = process.env.NEXT_PUBLIC_ACCESS_KEY
+    const secretAccessKey = process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY
+
+    //@ts-ignore
+    const client = new S3Client({
+      region: bucketRegion,
+      credentials: {
+        accessKeyId: accessKeyId,
+        secretAccessKey: secretAccessKey,
+      },
+    })
+
+    async function s3Upload(file:any) {
+      const uploadParams = {
+        Bucket: bucketName, 
+        Body: file.name,
+        Key: file.name,
+        ContentType: file.type
+      };
+
+      console.log('got here')
+      return client.send(new PutObjectCommand(uploadParams))
+
+    };
 
     const formData = await req.formData();
-    const file = await formData.get("file");
-
+    const file = await formData.get("image");
     console.log('file', file)
+
+
+    s3Upload(file);
 
     let inputLabels;
     formData.has('input-labels') ? inputLabels = formData.get("input-labels") : inputLabels = ""
