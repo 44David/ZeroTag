@@ -14,10 +14,10 @@ export default function Upload() {
 
         const formData = new FormData();
 
-        const fileInput = e.target.elements.fileUpload
-        const allFiles = fileInput.files[0]
+        // const fileInput = e.target.elements.fileUpload
+        // const allFiles = fileInput.files[0]
 
-        formData.append("image", allFiles)  
+        formData.append("image", file)  
         
         const response = await fetch('http://localhost:3000/api/upload', {
             method: 'POST',
@@ -29,7 +29,8 @@ export default function Upload() {
     };
 
     async function handleChange(event:any) {
-        setFile(URL.createObjectURL(event.target.files[0]))
+        // setFile(URL.createObjectURL(event.target.files[0]))
+        setFile(event.target.files[0])
     }
 
     return (

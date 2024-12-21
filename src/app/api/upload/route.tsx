@@ -1,10 +1,11 @@
 import pool from "@/app/lib/db";
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { getEmail } from "@/app/lib/session";
 import ollama from 'ollama';
 import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand, Type } from "@aws-sdk/client-s3";
-
+import multer from 'multer'
+import sharp from 'sharp';
+import crypto from 'crypto'
 
 
 export async function POST(req: NextRequest, res: NextResponse) {
@@ -23,22 +24,40 @@ export async function POST(req: NextRequest, res: NextResponse) {
       },
     })
 
-    async function s3Upload(file:any) {
+    async function s3Upload(fileBuffer: Buffer, fileName: string, fileType: string) {
       const uploadParams = {
         Bucket: bucketName, 
-        Body: file.name,
-        Key: file.name,
-        ContentType: file.type
+        Body: fileBuffer,
+        Key: fileName,
+        ContentType: fileType
       };
 
       return client.send(new PutObjectCommand(uploadParams))
 
     };
 
+    async function formatImage(file:any) {
+
+      const fileBuffer = await sharp(file.buffer)
+        .resize({ height: 512, width: 512, fit: "contain" })
+        .toBuffer()
+
+      s3Upload(fileBuffer, file.name, file.mimetype)  
+    }
+
     const formData = await req.formData();
     const file = await formData.get("image");
+    console.log('file', file)
 
-    s3Upload(file);
+  
+    const storage = multer.memoryStorage()
+    const upload = multer({ storage: storage })
+
+    upload.single('image'), async () => {
+      formatImage(file)
+    }
+
+
 
     let inputLabels;
     formData.has('input-labels') ? inputLabels = formData.get("input-labels") : inputLabels = ""
