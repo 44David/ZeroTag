@@ -32,7 +32,7 @@ export default function Upload() {
         Body: fileBody,
         Key: "image",
       };
-      console.log('got here')
+
       return client.send(new PutObjectCommand(uploadParams))
 
     };
@@ -48,9 +48,7 @@ export default function Upload() {
         const fileInput = e.target.elements.fileUpload
         const allFiles = fileInput.files
 
-
-
-
+        
         s3Upload(allFiles)
 
         const response = await fetch('http://localhost:3000/api/upload', {
