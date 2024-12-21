@@ -31,15 +31,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
         ContentType: file.type
       };
 
-      console.log('got here')
       return client.send(new PutObjectCommand(uploadParams))
 
     };
 
     const formData = await req.formData();
     const file = await formData.get("image");
-    console.log('file', file)
-
 
     s3Upload(file);
 

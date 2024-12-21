@@ -1,1 +1,1 @@
-- [ ] - Move AWS putObject code to API route
+- [x] - Move AWS putObject code to API route
