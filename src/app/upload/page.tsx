@@ -14,9 +14,6 @@ export default function Upload() {
 
         const formData = new FormData();
 
-        // const fileInput = e.target.elements.fileUpload
-        // const allFiles = fileInput.files[0]
-
         formData.append("image", file)  
         
         const response = await fetch('http://localhost:3000/api/upload', {

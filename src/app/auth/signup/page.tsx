@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { KeyRound, User } from "lucide-react";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { FormEvent } from "react"
 
@@ -34,7 +35,7 @@ export default function Signup() {
                     <input type="email" id="email-addr" className="text-black border-2 rounded-md p-2" name="email" placeholder="Email Address"></input>
                     <KeyRound />
                     <input type="password" id="pass" name="password" className="text-black border-2 rounded-md p-2" placeholder= "Password"></input>
-
+                    <p>Already have an account? <Link href={'/auth/login'}>Log In</Link></p>
                     <Button>Sign Up</Button>
                 </div>
 

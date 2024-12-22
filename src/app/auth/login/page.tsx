@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { KeyRound, User } from "lucide-react";
+import Link from "next/link";
 import { FormEvent } from "react"
 
 export default function Login() {
@@ -28,6 +29,7 @@ export default function Login() {
                 <input type="email" id="email-addr" className="text-black border-2 rounded-md p-2" name="email" placeholder="Email Address"></input>
                 <KeyRound />
                 <input type="password" id="pass" name="password" className="text-black border-2 rounded-md p-2" placeholder= "Password"></input>
+                <p>Don't have an account? <Link href={'/auth/signup'}>Sign up</Link></p>
 
                 <Button>Log In</Button>
             </div>
