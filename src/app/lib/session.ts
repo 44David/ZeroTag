@@ -18,7 +18,7 @@ export async function getEmail() {
         return queryEmail
 
     } catch (error) {
-        return "Not Signed In"
+        return ""
     }
 }
 

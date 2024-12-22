@@ -1,12 +1,11 @@
 'use client'
 
 import { Button } from "@/components/ui/button";
-import { KeyRound, User } from "lucide-react";
+import { KeyRound, Mail } from "lucide-react";
 import Link from "next/link";
 import { FormEvent } from "react"
 
 export default function Login() {
-
 
     async function onSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -24,14 +23,33 @@ export default function Login() {
     return (
         <form onSubmit={onSubmit}>
             <div className="h-96 flex items-center justify-center flex-col space-y-2">
+                <h1 className="font-bold text-4xl">Login</h1>
+                <div className="relative">
+                    <input 
+                        type="email" 
+                        className="pl-10 pr-4 py-2 w-full border rounded-md text-gray-700" 
+                        id="email-addr"
+                        name="email"
+                        placeholder="Email Address"
+                    />
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+                </div>
 
-                <User />
-                <input type="email" id="email-addr" className="text-black border-2 rounded-md p-2" name="email" placeholder="Email Address"></input>
-                <KeyRound />
-                <input type="password" id="pass" name="password" className="text-black border-2 rounded-md p-2" placeholder= "Password"></input>
-                <p>Don't have an account? <Link href={'/auth/signup'}>Sign up</Link></p>
 
-                <Button>Log In</Button>
+                <div className="relative">
+                    <input 
+                        type="text" 
+                        className="pl-10 pr-4 py-2 w-full border rounded-md text-gray-700" 
+                        id="pass"
+                        name="password"
+                        placeholder="Password"
+                    />
+                    <KeyRound className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+                </div>
+
+                <p>Don't have an account? <Link href={'/auth/signup'}>Sign Up</Link></p>
+
+                <Button>Login</Button>
             </div>
         </form>
 
