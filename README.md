@@ -1,1 +1,3 @@
-- [x] - Move AWS putObject code to API route
+- [ ] - Display user images on /files route
+- [ ] - Find way to annotate images after upload
+- [ ] - Fix auth errors 
