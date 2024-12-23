@@ -3,11 +3,15 @@
 import { FormEvent, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
 
 export default function Upload() {
     const [isChecked, setIsChecked] = useState(false);
     const [file, setFile] = useState('');
     const [showFile, setShowFile] = useState('');
+
+    const datasetUrl = process.env.NEXT_PUBLIC_ROBOWLOW_DATASET_URL;
+    const roboflowApiKey = process.env.NEXT_PUBLIC_ROBOFLOW_API;
 
     async function onSubmit(e: any) {
 
@@ -17,12 +21,27 @@ export default function Upload() {
 
         formData.append("image", file)  
         
-        const response = await fetch('http://localhost:3000/api/upload', {
+        const apiResponse = await fetch('http://localhost:3000/api/upload', {
             method: 'POST',
             body: formData,
         });
 
-        const data = await response.json();
+        axios({
+            method: "POST",
+            url: datasetUrl,
+            params: {
+                api_key: roboflowApiKey
+            },
+            data: file,
+        })
+        .then((response) => {
+            console.log(response.data)
+        })
+        .catch((error) => {
+            console.log(error.message)
+        })
+
+        const apiResponseData = await apiResponse.json();
         
     };
 
