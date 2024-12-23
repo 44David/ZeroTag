@@ -4,6 +4,7 @@ import "./globals.css";
 import { cookies } from "next/headers";
 import { getEmail } from "./lib/session";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 
 const geistSans = localFont({
@@ -41,7 +42,7 @@ async function Navbar() {
       <>
         <Link href={'/upload'}>Upload</Link>
         <Link href='labeling'>Files</Link>
-        <button><Link href={'/logout'}>Log Out</Link></button> 
+        <Button><Link href={'/logout'}>Log Out</Link></Button> 
 
       </>
 

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 export default function Upload() {
     const [isChecked, setIsChecked] = useState(false);
     const [file, setFile] = useState('');
+    const [showFile, setShowFile] = useState('');
 
     async function onSubmit(e: any) {
 
@@ -26,7 +27,7 @@ export default function Upload() {
     };
 
     async function handleChange(event:any) {
-        // setFile(URL.createObjectURL(event.target.files[0]))
+        setShowFile(URL.createObjectURL(event.target.files[0]))
         setFile(event.target.files[0])
     }
 
@@ -52,9 +53,9 @@ export default function Upload() {
 
             <label htmlFor="box">Automatically create labels?</label>
 
-            <input type="file" id="fileUpload" className="block" onChange={handleChange}/>
+            <input type="file" id="fileUpload" className="block" multiple onChange={handleChange}/>
 
-            <Image src={file} width={250} height={500} alt=""/>
+            <Image src={showFile} width={250} height={500} alt=""/>
 
             <Button className="block" type="submit">Submit</Button>
 

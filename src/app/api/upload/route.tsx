@@ -27,17 +27,19 @@ export async function POST(req: NextRequest, res: NextResponse) {
     
     try {
         pool.query("INSERT INTO labels (input_labels, email_address) VALUES (?, ?)", [inputLabels, queryEmail])
+        // pool.query("INSERT INTO labels (input_labels, email_address) VALUES (?, ?)", [inputLabels, queryEmail])
+
         
         const response = await ollama.chat({
             model: 'llama3.2-vision:11b',
             messages: [{
               role: 'user',
               content: 'What is in this image?',
-              images: []
+              images: [file?.name]
             }]
           })
 
-        console.log(response)
+        console.log(response.message.content)
 
         return NextResponse.json({"message": "Success"}, { status: 200 })
 

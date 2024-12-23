@@ -11,9 +11,9 @@ export async function GET() {
 
         const queryLabels = row.input_labels;
 
-        return NextResponse.json({ "Labels": queryLabels }, { status: 200 });
+        return NextResponse.json({ "Images": queryLabels }, { status: 200 });
     } else {
-        return NextResponse.json({ "Labels": "No Images found to label." }) 
+        return NextResponse.json({ "Images": "No images found to load." }) 
     }
 
 }

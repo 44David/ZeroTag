@@ -46,7 +46,7 @@ export default function Signup() {
 
                     <div className="relative">
                         <input 
-                            type="text" 
+                            type="password" 
                             className="pl-10 pr-4 py-2 w-full border rounded-md text-gray-700" 
                             id="pass"
                             name="password"
