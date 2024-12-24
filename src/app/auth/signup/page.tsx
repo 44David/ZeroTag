@@ -3,10 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { KeyRound, Mail } from "lucide-react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { FormEvent } from "react"
+import { FormEvent, useState } from "react"
 
 export default function Signup() {
+    const [errorData, setErrorData] = useState('');
 
     async function onSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -19,9 +19,13 @@ export default function Signup() {
         })
         
         const data = await response.json();
+        console.log(data.error)
+        if (!(data.error == "No Error")) {
+            setErrorData(data.error)
+        } else {
+            window.location.replace('/')
+        }
         
-        window.location.replace('/')
-
     }  
 
     return (
@@ -54,6 +58,7 @@ export default function Signup() {
                         />
                         <KeyRound className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
                     </div>
+                    <p className="text-red-600">{errorData}</p>
 
                     <p>Already have an account? <Link href={'/auth/login'}>Log In</Link></p>
                     <Button>Sign Up</Button>

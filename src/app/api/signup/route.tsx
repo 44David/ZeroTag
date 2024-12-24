@@ -16,7 +16,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const salt = await bcrypt.genSalt(saltRounds);
     const sessionValue = await bcrypt.hash(email, salt);
 
-    if (validator.isEmail(email)) {
+
+    if (validator.isEmail(email) && password?.length >= 8) {
 
         bcrypt.genSalt(saltRounds, function(err:any, salt:any) {  
             bcrypt.hash(password, salt, async function(err:any, hash:any) {
@@ -26,14 +27,16 @@ export async function POST(req: NextRequest, res: NextResponse) {
             })
         });
         
-        const response = NextResponse.json({ "message": "Signed up successfully" }, { status: 200 })
+        const response = NextResponse.json({ "error": "No Error" }, { status: 200 })
 
         response.headers.set('Set-Cookie', `session=${sessionValue}; Path=/`)
         return response
 
-    }  else {
+    } else if (password?.length < 8) {
+        return NextResponse.json({ "error": "Password must be longer than 8 characters" }, { status: 403 })
+    } else {
 
-        return NextResponse.json({ error: "Not a valid email address." }, { status: 500 })
+        return NextResponse.json({ "error": "An error occurred when try to sign in" }, { status: 500 })
     };
 
    

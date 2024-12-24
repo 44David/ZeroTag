@@ -19,19 +19,19 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
 
     if (bcrypt.compareSync(password, hashedQueryPassword) && email == queryEmail) {
-        const response = NextResponse.json({ "message": "Success" }, { status: 200 });
+
+        const response = NextResponse.json({ "error": "No Error" }, { status: 200 });
         response.headers.set('Set-Cookie', `session=${sessionValue}; Path=/`);
         return response
+
+    } else if (!(bcrypt.compareSync(password, hashedQueryPassword)) && email == queryEmail) {
+
+        return NextResponse.json({ "error": "Password does not match "}, { status: 401 });
+
+    } else { 
+        
+        return NextResponse.json({ "error": "An error occurred, do you have the right credentials? " }, { status: 401 })
+
     }
-
-    else if (!(bcrypt.compareSync(password, hashedQueryPassword)) && email == queryEmail) {
-
-        return NextResponse.json({ "message": "Password does not match "}, { status: 401 });
-    }
-
-    else if (!(email == queryEmail)) {
-        return NextResponse.json({ "message": "Account not found" }, { status: 401 })
-    }
-
 
 }
