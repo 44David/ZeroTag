@@ -17,7 +17,10 @@ export default function Login() {
             body: formData,
         })
         
-        const data = await response.json()
+        const data = await response.json();
+
+        window.location.replace('/')
+        
     }
 
     return (

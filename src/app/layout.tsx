@@ -35,13 +35,13 @@ async function Navbar() {
   return (
     <nav className="flex justify-between w-full p-4 mb-4 text-xl border-b-4">
 
-      <div>{email ?  getEmail() : <Link href={"/auth/signup"}>Sign In</Link>}</div>
+      <div>{email ?  <Link href={'/'}>{getEmail()}</Link>: <Link href={"/auth/signup"}>Sign In</Link>}</div>
       {
       email ? 
       
       <>
-        <Link href={'/upload'}>Upload</Link>
-        <Link href='labeling'>Files</Link>
+        <Link href={'/upload'} >Upload</Link>
+        <Link href={'filkes'}>Files</Link>
         <Button><Link href={'/logout'}>Log Out</Link></Button> 
 
       </>
