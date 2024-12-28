@@ -10,8 +10,7 @@ export default function Upload() {
     const [file, setFile] = useState('');
     const [showFile, setShowFile] = useState('');
 
-    const datasetUrl = process.env.NEXT_PUBLIC_ROBOWLOW_DATASET_URL;
-    const roboflowApiKey = process.env.NEXT_PUBLIC_ROBOFLOW_API;
+    const flaskServerAddr = process.env.NEXT_PUBLIC_FLASK_SERVER;
 
     async function onSubmit(e: any) {
 
@@ -26,23 +25,19 @@ export default function Upload() {
             body: formData,
         });
 
-        axios({
-            method: "POST",
-            url: datasetUrl,
-            params: {
-                api_key: roboflowApiKey
-            },
-            data: file,
-        })
-        .then((response) => {
-            console.log(response.data)
-        })
-        .catch((error) => {
-            console.log(error.message)
+        //@ts-ignore
+        const serverResponse = await fetch(flaskServerAddr, {
+            mode: 'no-cors',
+            method: 'GET',
+            headers: {
+                "Access-Control-Allow-Origin": "*"
+            }
         })
 
         const apiResponseData = await apiResponse.json();
-        
+
+        const apiServerData = await serverResponse
+        console.log("Flask server data", apiServerData);
     };
 
     async function handleChange(event:any) {
