@@ -1,4 +1,5 @@
 import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand, Type } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
 
 const bucketName = process.env.NEXT_PUBLIC_BUCKET_NAME
 const bucketRegion = process.env.NEXT_PUBLIC_BUCKET_REGION
@@ -24,3 +25,17 @@ export async function s3Upload(fileBuffer: any, fileName: any, fileType: any) {
 
     return client.send(new PutObjectCommand(uploadParams))
 };
+
+export async function getUrl(fileName: any) {
+    const params = {
+        Bucket: bucketName,
+        Key: fileName,
+    };
+
+    const command = new GetObjectCommand(params);
+    
+    //expiresIn is expressed in seconds
+    const url = await getSignedUrl(client, command, { expiresIn: 60 })
+
+    return url
+}

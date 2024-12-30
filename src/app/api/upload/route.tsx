@@ -9,7 +9,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-
     s3Upload(buffer, file.name, file.type)  
   };
 

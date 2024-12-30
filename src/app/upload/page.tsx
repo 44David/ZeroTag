@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { getUrl } from "@/lib/s3";
 
 
 export default function Upload() {
@@ -23,19 +24,18 @@ export default function Upload() {
 
         formData.append("image", file)  
 
-        const bytes = await file.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-
         const apiResponse = await fetch('http://localhost:3000/api/upload', {
             method: 'POST',
             body: formData,
         });
 
+       const imageUrl = await getUrl(file.name)
+
         //@ts-ignore
         const serverResponse = await fetch(flaskServerAddr, {
             mode: 'cors',
             method: 'POST',
-            body: JSON.stringify({ fileBuffer: buffer,  fileName: file.name }),
+            body: JSON.stringify({ s3Url: imageUrl }),
             headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Content-Type": "application/json",
@@ -44,9 +44,11 @@ export default function Upload() {
 
         const apiResponseData = await apiResponse.json();
 
+ 
+
         const apiServerData = await serverResponse;
 
-        console.log(apiServerData)
+        console.log(apiServerData)  
 
         setLoading('')
 
