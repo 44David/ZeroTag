@@ -35,15 +35,18 @@ export default function Upload() {
         const serverResponse = await fetch(flaskServerAddr, {
             mode: 'cors',
             method: 'POST',
-            body: buffer,
+            body: JSON.stringify({ fileBuffer: buffer,  fileName: file.name }),
             headers: {
-                "Access-Control-Allow-Origin": "*"
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json",
             }
         })
 
         const apiResponseData = await apiResponse.json();
 
         const apiServerData = await serverResponse;
+
+        console.log(apiServerData)
 
         setLoading('')
 
