@@ -3,9 +3,8 @@
 import { FormEvent, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { getUrl } from "@/lib/s3";
+import { getUrl, s3Upload } from "@/lib/s3";
 import { ImageUp , LoaderCircle} from 'lucide-react';
-
 
 export default function Upload() {
     const [file, setFile] = useState('');
@@ -25,10 +24,15 @@ export default function Upload() {
 
         formData.append("image", file)  
 
-        const apiResponse = await fetch('http://localhost:3000/api/upload', {
-            method: 'POST',
-            body: formData,
-        });
+        async function createFileBuffer(file: any) {
+            const bytes = await file.arrayBuffer();
+            const buffer = Buffer.from(bytes);
+
+            await s3Upload(buffer, file.name, file.type)  
+        };
+
+       await createFileBuffer(file);
+        
 
        const imageUrl = await getUrl(file.name)
 
@@ -43,9 +47,14 @@ export default function Upload() {
             }
         })
 
-        const apiResponseData = await apiResponse.json();
-
         const apiServerData = await serverResponse.json();
+        const labelled_s3_url = apiServerData.s3_labelled_url;
+
+        const apiResponse = await fetch('http://localhost:3000/api/upload', {
+            method: 'POST',
+            body: JSON.stringify({ s3Url:  labelled_s3_url }),
+        });        
+
 
         setS3File(apiServerData.s3_labelled_url)
 
@@ -76,7 +85,7 @@ export default function Upload() {
 
             <Button className="block bg-indigo-500 w-1/2 hover:bg-indigo-700" type="submit">Submit</Button>
 
-            <p>{loading ? 
+            <h6>{loading ? 
                 <>
                     <div className="flex items-center">
                         <LoaderCircle className="animate-spin h-5 w-5 mr-3"/> 
@@ -86,7 +95,7 @@ export default function Upload() {
                     <p>This may take a while</p>
                 </> 
                 
-                : " " }</p>
+                : " " }</h6>
         </form>
     )
 }

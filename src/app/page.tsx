@@ -19,10 +19,12 @@ export default async function Home() {
 
   return (
     <>
-
+        
       <div className="flex min-h-screen flex-col items-center p-24">  
-        <h1 className="align-middle font-bold text-7xl">Get Started</h1>
-        <Link href={"/upload"}><Button><Upload/> Upload </Button></Link>
+        <h1 className="text-7xl">Image Annotation Tool</h1>
+
+        {/* <h1 className="align-middle font-bold">Start annotating images</h1> */}
+        <Link href={"/upload"}><Button className="px-10 py-10"><Upload className="p-"/></Button></Link>
       </div>
     </>
   );
