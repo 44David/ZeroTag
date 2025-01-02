@@ -20,9 +20,9 @@ export default function Upload() {
 
         setLoading(true)
 
-        const formData = new FormData();
+        // const formData = new FormData();
 
-        formData.append("image", file)  
+        // formData.append("image", file)  
 
         async function createFileBuffer(file: any) {
             const bytes = await file.arrayBuffer();
@@ -54,7 +54,6 @@ export default function Upload() {
             method: 'POST',
             body: JSON.stringify({ s3Url:  labelled_s3_url }),
         });        
-
 
         setS3File(apiServerData.s3_labelled_url)
 
