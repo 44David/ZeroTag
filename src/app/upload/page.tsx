@@ -4,14 +4,14 @@ import { FormEvent, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { getUrl } from "@/lib/s3";
+import { ImageUp , LoaderCircle} from 'lucide-react';
 
 
 export default function Upload() {
-    const [isChecked, setIsChecked] = useState(false);
     const [file, setFile] = useState('');
     const [showFile, setShowFile] = useState('');
     const [s3File, setS3File] = useState('');
-    const [loading, setLoading] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const flaskServerAddr = process.env.NEXT_PUBLIC_FLASK_SERVER;
 
@@ -19,7 +19,7 @@ export default function Upload() {
 
         e.preventDefault();
 
-        setLoading('Loading...')
+        setLoading(true)
 
         const formData = new FormData();
 
@@ -49,7 +49,7 @@ export default function Upload() {
 
         setS3File(apiServerData.s3_labelled_url)
 
-        setLoading('')
+        setLoading(false)
 
     };  
 
@@ -59,36 +59,34 @@ export default function Upload() {
     }
 
     return (
-        <form onSubmit={onSubmit}>
 
-            <input 
-                type="text" 
-                name="input-labels"
-                placeholder="Input Labels"  
-                id="input-labels"
-                disabled={isChecked}
-                className="block rounded-md border-2"
-            />
+      <form onSubmit={onSubmit} className="h-auto flex items-center justify-center flex-col space-y-2">  
 
-            <input
-                type='checkbox'
-                value="auto-label"
-                name="box"
-                id="box"
-                onChange={(e) => setIsChecked(e.target.checked)}
-            />
+            <Image src={showFile} width={1000} height={500} alt=" " className="rounded-md"/>
+            {/* <Image src={s3File} width={1280} height={856} alt="" /> */}
 
-            <label htmlFor="box">Automatically create labels?</label>
+            <input type="file" id="fileUpload" name="file-upload" className="block" multiple onChange={handleChange} style={{ display: 'none' }}/>
 
-            <input type="file" id="fileUpload" className="block" multiple onChange={handleChange}/>
+            <Button className="inline-flex items-center w-1/2" type="button">
+                <ImageUp/>
+                <label htmlFor="fileUpload" className="hover:cursor-pointer">
+                    Upload 
+                </label>
+            </Button>
 
-            <Image src={showFile} width={250} height={500} alt=""/>
-            <Image src={s3File} width={1280} height={856} alt="" />
+            <Button className="block bg-indigo-500 w-1/2 hover:bg-indigo-700" type="submit">Submit</Button>
 
-            <p>{loading}</p>
+            <p>{loading ? 
+                <>
+                    <div className="flex items-center">
+                        <LoaderCircle className="animate-spin h-5 w-5 mr-3"/> 
+                        <p>Processing...</p>
+                    </div> 
 
-            <Button className="block" type="submit">Submit</Button>
-
+                    <p>This may take a while</p>
+                </> 
+                
+                : " " }</p>
         </form>
     )
 }
