@@ -1,22 +1,16 @@
 import pool from "@/app/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import { getEmail } from "@/app/lib/session";
-const bcrypt = require('bcrypt');
-
 
 export async function POST(req: NextRequest, res: NextResponse) {
 
     const requestJson = await req.json();
-    const s3_url = await requestJson.s3Url;
-
-    const hash = bcrypt.hashSync(s3_url, 10)
-
-    console.log(s3_url)
+    const imageName = await requestJson.imageName;
     
     const queryEmail = await getEmail();
     
     try {
-        pool.query("INSERT INTO s3Storage (email_address, s3_url) VALUES (?, ?)", [queryEmail, hash])
+        pool.query("INSERT INTO s3Storage (email_address, s3_url) VALUES (?, ?)", [queryEmail, imageName])
 
         return NextResponse.json({"message": "Success"}, { status: 200 })
 

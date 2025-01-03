@@ -13,9 +13,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
         //@ts-ignore
         const [row] = rows;
 
-        const s3_urls = row.s3_url;
+        const imageNames = row.s3_url;
 
-        return NextResponse.json({ "Images": s3_urls }, { status: 200 });
+        return NextResponse.json({ "Images": imageNames }, { status: 200 });
 
     } else {
 

@@ -11,7 +11,6 @@ import { useToast } from "@/hooks/use-toast"
 export default function Upload() {
     const [file, setFile] = useState('');
     const [showFile, setShowFile] = useState('');
-    const [s3File, setS3File] = useState('');
     const [loading, setLoading] = useState(false);
 
     const flaskServerAddr = process.env.NEXT_PUBLIC_FLASK_SERVER;
@@ -49,29 +48,17 @@ export default function Upload() {
             }
         })
 
-        const apiServerData = await serverResponse.json();
-        const labelled_s3_url = apiServerData.s3_labelled_url;
 
         const apiResponse = await fetch('http://localhost:3000/api/upload', {
             method: 'POST',
-            body: JSON.stringify({ s3Url:  labelled_s3_url }),
+            body: JSON.stringify({ imageName:  file.name }),
         });        
 
-        setS3File(apiServerData.s3_labelled_url)
 
         setLoading(false)
 
-        const { toast } = useToast();
-
-        // toast({
-        //     title: "Success",
-        //     description: "Image processed successfully, check it out in yours files."
-        // })
 
         window.location.replace('/')
-
-
-
 
     };  
 

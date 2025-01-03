@@ -1,4 +1,7 @@
 import { getEmail } from "../lib/session";
+import { getUrl } from "@/lib/s3";
+import Image from "next/image";
+
 
 export default async function Files() {
 
@@ -8,12 +11,11 @@ export default async function Files() {
     })
 
     const data = await res.json();
-    console.log(data)
+    const fileName = data.Images
 
     return (
-        <div className="">
-
-            {data.Images}
+        <div className=""> 
+            <Image src={await getUrl(fileName)} width={1000} height={500} alt=" "/>
             
         </div>
     )
