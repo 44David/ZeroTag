@@ -71,30 +71,42 @@ export default function Upload() {
       <form onSubmit={onSubmit} className="h-auto flex items-center justify-center flex-col space-y-2">  
 
             <Image src={showFile} width={1000} height={500} alt=" " className="rounded-md"/>
-            {/* <Image src={s3File} width={1280} height={856} alt="" /> */}
 
             <input type="file" id="fileUpload" name="file-upload" className="block" multiple onChange={handleChange} style={{ display: 'none' }}/>
 
-            <Button className="inline-flex items-center w-1/2" type="button">
-                <ImageUp/>
-                <label htmlFor="fileUpload" className="hover:cursor-pointer">
-                    Upload 
-                </label>
-            </Button>
+            { loading ? 
 
-            <Button className="block bg-indigo-500 w-1/2 hover:bg-indigo-700" type="submit">Submit</Button>
-
-            <h6>{loading ? 
-                <>
-                    <div className="flex items-center">
-                        <LoaderCircle className="animate-spin h-5 w-5 mr-3"/> 
-                        <p>Processing...</p>
-                    </div> 
-
-                    <p>This may take a while</p>
-                </> 
+            <>
+                <Button className="inline-flex items-center w-1/2" type="button" disabled>
+                    <ImageUp/>
+                    <label htmlFor="fileUpload" className="hover:cursor-pointer">
+                        Upload 
+                    </label>
+                </Button>
                 
-                : " " }</h6>
+                <Button className="bg-indigo-500 w-1/2 hover:bg-indigo-700 inline-flex items-center" type="submit" disabled>
+                    <LoaderCircle className="animate-spin"/> Processing...
+                </Button>
+                <p className="text-xs text-gray-600">This may take a while.</p>
+            </>
+
+            :
+            <>
+                <Button className="inline-flex items-center w-1/2" type="button">
+                    <ImageUp/>
+                    <label htmlFor="fileUpload" className="hover:cursor-pointer">
+                        Upload 
+                    </label>
+                </Button>
+
+                <Button className="block bg-indigo-500 w-1/2 hover:bg-indigo-700" type="submit">
+                    Submit
+                </Button>
+            </>
+             
+            }
+
+
         </form>
     )
 }
