@@ -5,6 +5,8 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { getUrl, s3Upload } from "@/lib/s3";
 import { ImageUp , LoaderCircle} from 'lucide-react';
+import { useToast } from "@/hooks/use-toast"
+
 
 export default function Upload() {
     const [file, setFile] = useState('');
@@ -20,9 +22,9 @@ export default function Upload() {
 
         setLoading(true)
 
-        // const formData = new FormData();
+        const formData = new FormData();
 
-        // formData.append("image", file)  
+        formData.append("image", file)  
 
         async function createFileBuffer(file: any) {
             const bytes = await file.arrayBuffer();
@@ -58,6 +60,18 @@ export default function Upload() {
         setS3File(apiServerData.s3_labelled_url)
 
         setLoading(false)
+
+        const { toast } = useToast();
+
+        // toast({
+        //     title: "Success",
+        //     description: "Image processed successfully, check it out in yours files."
+        // })
+
+        window.location.replace('/')
+
+
+
 
     };  
 

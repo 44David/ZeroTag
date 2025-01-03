@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import { getEmail } from "./lib/session";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -41,8 +41,8 @@ async function Navbar() {
       
       <>
         <Link href={'/upload'} >Upload</Link>
-        <Link href={'filkes'}>Files</Link>
-        <Button><Link href={'/logout'}>Log Out</Link></Button> 
+        <Link href={'/files'}>Files</Link>
+        <Button className="bg-indigo-500"><Link href={'/logout'}>Log Out</Link></Button> 
 
       </>
 
@@ -67,6 +67,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} >
         <Navbar />
         {children}
+        <Toaster />
       </body>
     </html>
   );
