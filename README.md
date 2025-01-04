@@ -1,3 +1,4 @@
-- [ ] - Display user images on /files route
+- [x] - Display user images on /files route
 - [x] - Find way to annotate images after upload
-- [ ] - Fix auth errors 
+- [x] - Fix auth errors
+- [ ] - Create a cloudfront distribution to securely serve images
