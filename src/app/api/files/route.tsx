@@ -12,7 +12,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
     if (rows.length) {
         //@ts-ignore
         const imageNames = rows.map(row => row.s3_url);
-        console.log(imageNames)
         return NextResponse.json({ "Images": imageNames }, { status: 200 });
 
     } else {

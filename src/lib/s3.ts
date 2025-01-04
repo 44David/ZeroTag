@@ -1,5 +1,5 @@
 import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand, Type } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
+import { getSignedUrl } from "@aws-sdk/cloudfront-signer";
 
 const bucketName = process.env.NEXT_PUBLIC_BUCKET_NAME
 const bucketRegion = process.env.NEXT_PUBLIC_BUCKET_REGION
@@ -27,15 +27,13 @@ export async function s3Upload(fileBuffer: any, fileName: any, fileType: any) {
 };
 
 export async function getUrl(fileName: any) {
-    const params = {
-        Bucket: bucketName,
-        Key: fileName,
-    };
 
-    const command = new GetObjectCommand(params);
-    
-    //expiresIn is expressed in seconds
-    const url = await getSignedUrl(client, command, { expiresIn: 60 })
+    const url = getSignedUrl({
+        url: "https://dzq2tmk3loyp5.cloudfront.net/" + fileName,
+        dateLessThan: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+        privateKey: process.env.NEXT_PUBLIC_CLOUDFRONT_PRIVATE_KEY,
+        keyPairId: process.env.NEXT_PUBLIC_CLOUDFRONT_KEY_PAR_ID
+    })
 
     return url
 }

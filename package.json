@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.712.0",
+    "@aws-sdk/cloudfront-signer": "^3.709.0",
     "@aws-sdk/s3-request-presigner": "^3.717.0",
     "@azure/app-configuration": "^1.7.0",
     "@azure/identity": "^4.5.0",
