@@ -37,3 +37,7 @@ export async function getUrl(fileName: any) {
 
     return url
 }
+
+export async function deleteImage(fileName: any) {
+    console.log("Hello")
+}

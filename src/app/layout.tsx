@@ -6,6 +6,7 @@ import { getEmail } from "./lib/session";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/toaster";
+import Image from "next/image";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,26 +33,27 @@ async function Navbar() {
   } else {
     email = false;
   }
-  return (
-    <nav className="flex justify-between w-full p-4 mb-4 text-xl border-b-4">
 
-      <div>{email ?  <Link href={'/'}>{getEmail()}</Link>: <Link href={"/auth/signup"}>Sign In</Link>}</div>
-      {
-      email ? 
+  return (
+    <nav className="flex justify-between items-center w-full p-4 mb-4 text-xl border-b-4">
       
-      <>
-        <Link href={'/upload'} >Upload</Link>
+    { email 
+      
+      ? 
+      
+      <> 
+        
+        <Link href={'/upload'}>Upload</Link>
         <Link href={'/files'}>Files</Link>
+        {/* <Link href={'/'}>{getEmail()}</Link> */}
         <Button className="bg-indigo-500"><Link href={'/logout'}>Log Out</Link></Button> 
 
       </>
 
       : 
-      
-      <div></div>
+      <Link href={"/auth/signup"}>Sign In</Link>
       
       }
-
 
     </nav>
   )

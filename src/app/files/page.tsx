@@ -1,7 +1,8 @@
 import { getEmail } from "../lib/session";
-import { getUrl } from "@/lib/s3";
+import { getUrl, deleteImage } from "@/lib/s3";
 import Image from "next/image";
 import Link from "next/link";
+import { Trash2 } from 'lucide-react';
 
 
 export default async function Files() {
@@ -16,6 +17,7 @@ export default async function Files() {
     
 
     return (
+
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
             {imageNames.length > 0 ? (
                 imageNames.map(async (imageName, index) => (
@@ -30,6 +32,9 @@ export default async function Files() {
                                 className="rounded-lg shadow-lg"
                             />
                         </Link>
+                        <div className="w-full  p-4 rounded-lg shadow-lg">
+                            <button onClick={() => deleteImage(imageName)}><Trash2 className="text-red-500 hover: cursor-pointer"/></button>
+                        </div> 
                     </div>
                 ))
             ) : (
