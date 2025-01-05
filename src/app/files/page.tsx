@@ -12,6 +12,7 @@ export default async function Files() {
         body: JSON.stringify({ "email": await getEmail() }),
     })
 
+
     const data = await res.json();
     const imageNames = data.Images
     
@@ -33,7 +34,7 @@ export default async function Files() {
                             />
                         </Link>
                         <div className="w-full  p-4 rounded-lg shadow-lg">
-                            <button onClick={() => deleteImage(imageName)}><Trash2 className="text-red-500 hover: cursor-pointer"/></button>
+                            <button onClick={async () => deleteImage(imageName, await getEmail())}><Trash2 className="text-red-500 hover: cursor-pointer"/></button>
                         </div> 
                     </div>
                 ))

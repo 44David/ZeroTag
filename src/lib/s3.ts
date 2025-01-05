@@ -1,3 +1,4 @@
+import { deleteImageFromDatabase } from "@/app/lib/databaseFunction";
 import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand, Type } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/cloudfront-signer";
 
@@ -38,6 +39,12 @@ export async function getUrl(fileName: any) {
     return url
 }
 
-export async function deleteImage(fileName: any) {
-    console.log("Hello")
+export async function deleteImage(fileName:any, emailAddress: any) {
+    const deleteParams = {
+        Bucket: bucketName,
+        Key: fileName
+    }
+
+    await deleteImageFromDatabase(fileName, emailAddress);
+    return S3Client.send(new DeleteObjectCommand(deleteParams))
 }
