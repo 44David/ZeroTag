@@ -6,17 +6,14 @@ import { Trash2 } from 'lucide-react';
 
 
 export default async function Files() {
-
     let res = await fetch("http://localhost:3000/api/files", {
         method: 'POST',
         body: JSON.stringify({ "email": await getEmail() }),
     })
 
-
     const data = await res.json();
     const imageNames = data.Images
     
-
     return (
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
@@ -33,9 +30,9 @@ export default async function Files() {
                                 className="rounded-lg shadow-lg"
                             />
                         </Link>
-                        <div className="w-full  p-4 rounded-lg shadow-lg">
-                            <button onClick={async () => deleteImage(imageName, await getEmail())}><Trash2 className="text-red-500 hover: cursor-pointer"/></button>
-                        </div> 
+                        {/* <div className="w-full  p-4 rounded-lg shadow-lg"> */}
+                            {/* <Link href={"/"} onClick={async () => deleteImage(imageName, await getEmail())}><Trash2 className="text-red-500 hover: cursor-pointer"/></Link> */}
+                        {/* </div>  */}
                     </div>
                 ))
             ) : (

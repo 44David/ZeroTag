@@ -5,8 +5,6 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { getUrl, s3Upload } from "@/lib/s3";
 import { ImageUp , LoaderCircle} from 'lucide-react';
-import { useToast } from "@/hooks/use-toast"
-
 
 export default function Upload() {
     const [file, setFile] = useState('');
@@ -38,7 +36,7 @@ export default function Upload() {
        const imageUrl = await getUrl(file.name)
 
         //@ts-ignore
-        const serverResponse = await fetch(flaskServerAddr, {
+        const serverResponse = await fetch("http://127.0.0.1:5000/api", {
             mode: 'cors',
             method: 'POST',
             body: JSON.stringify({ s3Url: imageUrl }),
@@ -56,7 +54,6 @@ export default function Upload() {
 
 
         setLoading(false)
-
 
         window.location.replace('/')
 
@@ -85,7 +82,7 @@ export default function Upload() {
                     </label>
                 </Button>
                 
-                <Button className="bg-indigo-500 w-1/2 hover:bg-indigo-700 inline-flex items-center" type="submit" disabled>
+                <Button className="bg-custom-blue w-1/2 inline-flex items-center" type="submit" disabled>
                     <LoaderCircle className="animate-spin"/> Processing...
                 </Button>
                 <p className="text-xs text-gray-600">This may take a while.</p>
@@ -100,7 +97,7 @@ export default function Upload() {
                     </label>
                 </Button>
 
-                <Button className="block bg-indigo-500 w-1/2 hover:bg-indigo-700" type="submit">
+                <Button className="block bg-custom-blue w-1/2 hover:bg-teal-900" type="submit">
                     Submit
                 </Button>
             </>

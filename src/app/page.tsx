@@ -24,7 +24,7 @@ export default async function Home() {
         <h1 className="text-7xl">Image Annotation Tool</h1>
 
         {/* <h1 className="align-middle font-bold">Start annotating images</h1> */}
-        <Link href={"/upload"}><Button className="px-10 py-10"><Upload className="p-"/></Button></Link>
+        <Link href={"/upload"}><Button className=""><Upload/></Button></Link>
       </div>
     </>
   );

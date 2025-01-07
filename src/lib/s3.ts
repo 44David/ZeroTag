@@ -46,5 +46,7 @@ export async function deleteImage(fileName:any, emailAddress: any) {
     }
 
     await deleteImageFromDatabase(fileName, emailAddress);
-    return S3Client.send(new DeleteObjectCommand(deleteParams))
+    S3Client.send(new DeleteObjectCommand(deleteParams))
+
+    return { "Success": "Complete" }
 }

@@ -27,33 +27,29 @@ export const metadata: Metadata = {
 
 async function Navbar() {
   const cookieStore = await cookies();
+
   let email;
-  if (cookieStore.has('session')) {
-    email = true;
-  } else {
-    email = false;
-  }
+  cookieStore.has('session') ? email = true : email = false
 
   return (
-    <nav className="flex justify-between items-center w-full p-4 mb-4 text-xl border-b-4">
+    <nav className="flex justify-between items-center w-full p-4 mb-4 text-xl border-b-4 border-custom-blue z-1 fixed">
       
     { email 
       
       ? 
       
-      <> 
-        
+      <>        
+        <Link href={'/'}>{getEmail()}</Link>
         <Link href={'/upload'}>Upload</Link>
         <Link href={'/files'}>Files</Link>
-        {/* <Link href={'/'}>{getEmail()}</Link> */}
-        <Button className="bg-indigo-500"><Link href={'/logout'}>Log Out</Link></Button> 
+        <Button className="bg-custom-blue hover:bg-teal-900"><Link href={'/logout'}>Log Out</Link></Button> 
 
       </>
 
       : 
       <Link href={"/auth/signup"}>Sign In</Link>
       
-      }
+    }
 
     </nav>
   )
@@ -69,7 +65,6 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} >
         <Navbar />
         {children}
-        <Toaster />
       </body>
     </html>
   );

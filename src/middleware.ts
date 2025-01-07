@@ -18,7 +18,6 @@ export async function middleware(req: NextRequest) {
 
     return NextResponse.redirect(new URL('/auth/signup', req.url))
     
-    
 }
 
 export const config = {
