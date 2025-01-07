@@ -32,7 +32,7 @@ async function Navbar() {
   cookieStore.has('session') ? email = true : email = false
 
   return (
-    <nav className="flex justify-between items-center w-full p-4 mb-4 text-xl border-b-4 border-custom-blue z-1 fixed">
+    <nav className="flex justify-between items-center w-full p-4 mb-4 text-xl border-b-4 border-custom-blue">
       
     { email 
       

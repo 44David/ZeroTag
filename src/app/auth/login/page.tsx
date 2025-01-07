@@ -33,27 +33,27 @@ export default function Login() {
             <div className="h-96 flex items-center justify-center flex-col space-y-2">
                 <h1 className="font-bold text-4xl">Login</h1>
                 <div className="relative">
-                    <input 
-                        type="email" 
-                        className="pl-10 pr-4 py-2 w-full border rounded-md text-gray-700" 
-                        id="email-addr"
-                        name="email"
-                        placeholder="Email Address"
-                    />
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-                </div>
+                            <input 
+                                type="email" 
+                                className="pl-10 pr-4 py-2 w-full border rounded-md text-white bg-slate-600" 
+                                id="email-addr"
+                                name="email"
+                                placeholder="Email Address"
+                            />
+                            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
+                        </div>
 
 
-                <div className="relative">
-                    <input 
-                        type="password" 
-                        className="pl-10 pr-4 py-2 w-full border rounded-md text-gray-700" 
-                        id="pass"
-                        name="password"
-                        placeholder="Password"
-                    />
-                    <KeyRound className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-                </div>
+                        <div className="relative">
+                            <input 
+                                type="password" 
+                                className="pl-10 pr-4 py-2 w-full border rounded-md text-white bg-slate-600" 
+                                id="pass"
+                                name="password"
+                                placeholder="Password"
+                            />
+                            <KeyRound className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
+                        </div>
                 <p className="text-red-600">{errorData}</p>
                 <p>Don't have an account? <Link href={'/auth/signup'}>Sign Up</Link></p>
 
