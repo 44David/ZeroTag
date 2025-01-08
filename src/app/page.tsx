@@ -1,30 +1,19 @@
-import Image from "next/image";
-import pool from "./lib/db";
-import { cookies } from "next/headers";
+'use client'
+
 import { Button } from "@/components/ui/button"
 import Link from "next/link";
-import { Upload } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 
 
-export default async function Home() {
-
-  const cookieStore = await cookies();
-  let email;
-  
-  if (cookieStore.has('session')) {
-    email = true;
-  } else {
-    email = false;
-  }
+export default function Home() {
 
   return (
     <>
         
       <div className="flex min-h-screen flex-col items-center p-24">  
         <h1 className="text-7xl">Image Annotation Tool</h1>
-
-        {/* <h1 className="align-middle font-bold">Start annotating images</h1> */}
-        <Link href={"/upload"}><Button className=""><Upload/></Button></Link>
+        <p>A simple tool to annotate images with Tensorflow models.</p>
+        <Link href={"/upload"}><Button className="p-5 bg-custom-blue hover:bg-teal-900"><ArrowUpRight/>Try it out</Button></Link>
       </div>
     </>
   );

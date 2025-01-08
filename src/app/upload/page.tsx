@@ -10,6 +10,7 @@ export default function Upload() {
     const [file, setFile] = useState('');
     const [showFile, setShowFile] = useState('');
     const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const flaskServerAddr = process.env.NEXT_PUBLIC_FLASK_SERVER;
 
@@ -35,16 +36,23 @@ export default function Upload() {
 
        const imageUrl = await getUrl(file.name)
 
-        //@ts-ignore
-        const serverResponse = await fetch("http://127.0.0.1:5000/api", {
-            mode: 'cors',
-            method: 'POST',
-            body: JSON.stringify({ s3Url: imageUrl }),
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Content-Type": "application/json",
-            }
-        })
+        try {
+            //@ts-ignore
+            const serverResponse = await fetch("http://127.0.0.1:5000/api", {
+                mode: 'cors',
+                method: 'POST',
+                body: JSON.stringify({ s3Url: imageUrl }),
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Content-Type": "application/json",
+                }
+            })
+
+        } catch (error) {
+            setLoading(false)
+            setErrorMessage("An internal error has ocurred, please try again later.")
+        }    
+
 
 
         const apiResponse = await fetch('http://localhost:3000/api/upload', {
@@ -54,8 +62,6 @@ export default function Upload() {
 
 
         setLoading(false)
-
-        window.location.replace('/')
 
     };  
 
@@ -100,6 +106,9 @@ export default function Upload() {
                 <Button className="block bg-custom-blue w-1/2 hover:bg-teal-900" type="submit">
                     Submit
                 </Button>
+
+                <p className="text-red-500">{errorMessage}</p>
+
             </>
              
             }
