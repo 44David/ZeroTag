@@ -5,8 +5,7 @@ import { cookies } from "next/headers";
 import { getEmail } from "./lib/session";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Toaster } from "@/components/ui/toaster";
-import Image from "next/image";
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
