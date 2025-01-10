@@ -1,30 +1,35 @@
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server'
 
-
 export async function middleware(req: NextRequest) {
 
-    if (req.url == "/logout") {
-        const response = NextResponse.redirect(new URL('/auth/signup', req.url));
+    const cookieStore = await req.cookies;
+
+    
+    if (req.nextUrl.pathname == "/logout" && cookieStore.has('session')) {
         await (await cookies()).delete('session')
+        const response = NextResponse.redirect(new URL('/', req.url));
         return response
 
     }
 
-    const cookieStore = await req.cookies;
 
-    if (cookieStore.has('session')) {
-        return NextResponse.next()
-    } 
+    // if (cookieStore.has('session')) {
+        // return NextResponse.next()
+    // }; 
 
-    return NextResponse.redirect(new URL('/auth/signup', req.url))
+
+    // if (req.url == "/logout") {
+    //     const response = NextResponse.redirect(new URL('/auth/signup', req.url));
+
+    // }
+
     
 }
 
 export const config = {
     matcher: [
-        '/upload',
-        '/files',
+        "/((?!api|_next/static|_next/image|favicon.ico).*)",
     ]
 }   
 
