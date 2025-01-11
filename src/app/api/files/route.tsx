@@ -7,7 +7,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const emailAddress = await jsonRequest.email;
 
     const [rows] = await pool.query("SELECT s3_url FROM s3Storage WHERE email_address=(?)", emailAddress);
-    console.log('ROW LENGTH', rows.length)
 
     // @ts-ignore
     if (rows.length > 0) {

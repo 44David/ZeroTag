@@ -8,7 +8,8 @@ export async function middleware(req: NextRequest) {
     
     if (req.nextUrl.pathname == "/logout" && cookieStore.has('session')) {
         await (await cookies()).delete('session')
-        const response = NextResponse.redirect(new URL('/', req.url));
+        
+        const response = NextResponse.json({"status": 200})
         return response
 
     }
