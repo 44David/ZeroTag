@@ -15,7 +15,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
         return NextResponse.json({ "Images": imageNames }, { status: 200 });
 
     } else {
-
         return NextResponse.json({ "Images": "No images found to load." }) 
     }
 }

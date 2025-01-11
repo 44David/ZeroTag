@@ -27,12 +27,9 @@ export default async function Files() {
                                 objectFit="cover"   
                                 width={700}
                                 height={700}
-                                className="rounded-lg shadow-lg"
+                                className="rounded-lg shadow-lg shadow-custom-blue"
                             />
                         </Link>
-                        {/* <div className="w-full  p-4 rounded-lg shadow-lg"> */}
-                            {/* <Link href={"/"} onClick={async () => deleteImage(imageName, await getEmail())}><Trash2 className="text-red-500 hover: cursor-pointer"/></Link> */}
-                        {/* </div>  */}
                     </div>
                 ))
             ) : (

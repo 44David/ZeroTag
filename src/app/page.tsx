@@ -13,7 +13,7 @@ export default function Home() {
       <div className="flex min-h-screen flex-col items-center p-24">  
         <h1 className="text-7xl">Image Annotation Tool</h1>
         <p>A simple tool to annotate images with Tensorflow models.</p>
-        <Link href={"/upload"}><Button className="p-5 bg-custom-blue hover:bg-teal-900"><ArrowUpRight/>Try it out</Button></Link>
+        <Link href={"/upload"}><Button className="p-5 bg-custom-blue hover:bg-teal-900 shadow-lg shadow-teal-900 "><ArrowUpRight/>Try it out</Button></Link>
       </div>
     </>
   );

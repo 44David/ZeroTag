@@ -8,14 +8,13 @@ export async function middleware(req: NextRequest) {
     
     if (req.nextUrl.pathname == "/logout" && cookieStore.has('session')) {
         await (await cookies()).delete('session')
-
         const response = NextResponse.redirect(new URL('/', req.url));
         return response
 
     }
 
     
-    if (req.nextUrl.pathname == "/upload" || req.nextUrl.pathname == "/files" && !cookieStore.has('session')) {
+    if ((req.nextUrl.pathname == "/upload" || req.nextUrl.pathname == "/files") && !cookieStore.has('session')) {
         const response = NextResponse.redirect(new URL('/auth/signup', req.url));
         return response
 
