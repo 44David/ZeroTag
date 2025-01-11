@@ -2,7 +2,8 @@ import { getEmail } from "../lib/session";
 import { getUrl, deleteImage } from "@/lib/s3";
 import Image from "next/image";
 import Link from "next/link";
-import { Trash2 } from 'lucide-react';
+import { ArrowUpRight, Trash2 } from 'lucide-react';
+import { Button } from "@/components/ui/button";
 
 
 export default async function Files() {
@@ -17,7 +18,7 @@ export default async function Files() {
     return (
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
-            {imageNames.length > 0 ? (
+            {imageNames != "No images" ? (
                 imageNames.map(async (imageName, index) => (
                     <div key={index} className="relative w-full h-64">
                         <Link href={await getUrl(imageName)}>
@@ -28,12 +29,15 @@ export default async function Files() {
                                 width={700}
                                 height={700}
                                 className="rounded-lg shadow-lg shadow-custom-blue"
-                            />
+                                />
                         </Link>
                     </div>
                 ))
             ) : (
-                <p>No images found</p>
+                <div className="">
+                    <p>No images found to show</p>
+                    <Link href={"/upload"}><Button className="p-5 bg-custom-blue hover:bg-teal-900 shadow-lg shadow-teal-900"><ArrowUpRight/>Upload</Button></Link>
+                </div>
             )}
         </div>
     )
