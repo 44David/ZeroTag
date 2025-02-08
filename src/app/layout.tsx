@@ -33,7 +33,7 @@ async function Navbar() {
   const emailAddr:string = await getEmail()
 
   return (
-    <nav className="flex justify-between items-center w-full p-4 mb-4 text-xl border-b-2 border-custom-blue">
+    <nav className="flex justify-between items-center w-full p-4 mb-4 text-xl border-b-2 border-white">
       
     { email 
       
@@ -43,7 +43,7 @@ async function Navbar() {
         <Link href={'/'}>{(await emailAddr).split("@")[0]}</Link>
         <Link href={'/upload'}>Upload</Link>
         <Link href={'/files'}>Files</Link>
-        <Button className="bg-custom-blue hover:bg-teal-900"><Link href={'/logout'}>Log Out</Link></Button> 
+        <Button className=""><Link href={'/logout'}>Log Out</Link></Button> 
 
       </>
 

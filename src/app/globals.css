@@ -4,8 +4,8 @@
 
 body {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  background-color: #14191f;
-  color: #e6e1cf;
+  background-color: #000000;
+  color: white;
 }
 @layer base {
   :root {

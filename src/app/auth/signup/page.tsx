@@ -33,34 +33,32 @@ export default function Signup() {
                 <form onSubmit={onSubmit} className="">
 
                     <div className="h-96 flex items-center justify-center flex-col space-y-2">
-                    <h1 className="font-bold text-4xl">Sign Up</h1>
+                    <h1 className="font-bold text-4xl mb-10">Signup.</h1>
 
                         <div className="relative">
                             <input 
                                 type="email" 
-                                className="pl-10 pr-4 py-2 w-full border rounded-md text-white bg-slate-600" 
+                                className="pl-10 pr-4 py-2 w-full outline-0 border-b-2 border-white bg-black" 
                                 id="email-addr"
                                 name="email"
                                 placeholder="Email Address"
                             />
-                            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
                         </div>
 
 
                         <div className="relative">
                             <input 
                                 type="password" 
-                                className="pl-10 pr-4 py-2 w-full border rounded-md text-white bg-slate-600" 
+                                className="pl-10 pr-4 py-2 w-full outline-0 border-b-2 border-white bg-black" 
                                 id="pass"
                                 name="password"
                                 placeholder="Password"
                             />
-                            <KeyRound className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
                         </div>
                         <p className="text-red-600">{errorData}</p>
 
                         <p>Already have an account? <Link href={'/auth/login'}>Log In</Link></p>
-                        <Button>Sign Up</Button>
+                        <Button className="bg-black text-white border-white border hover:bg-gray-900 px-12 rounded-xl ">Signup</Button>
                     </div>
 
                 </form>
