@@ -4,7 +4,15 @@ import { FormEvent, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { getUrl, s3Upload } from "@/lib/s3";
-import { ImageUp, LoaderCircle } from "lucide-react";
+import { ImageUp, LoaderCircle, ChevronDown } from "lucide-react";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function Upload() {
     const [file, setFile] = useState("");
@@ -48,7 +56,7 @@ export default function Upload() {
         } catch (error) {
             setLoading(false);
             setErrorMessage(
-                "An internal error has ocurred, please try again later."
+                "An internal error has occurred, please try again later."
             );
         }
 
@@ -133,6 +141,25 @@ export default function Upload() {
                     >
                         Submit
                     </Button>
+
+                    <DropdownMenu>
+                        <DropdownMenuTrigger className="inline-flex items-center text-sm">
+                            Choose a model <ChevronDown className="h-5 w-5" />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="bg-neutral-900 text-white">
+
+                            <DropdownMenuLabel>Cloud Models</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>
+                                Tensorflow Model
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>Grounding DINO</DropdownMenuItem>
+                            <DropdownMenuSeparator />
+
+                            <DropdownMenuLabel>Local Models</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                        </DropdownMenuContent>
+                    </DropdownMenu>
 
                     <p className="text-red-500">{errorMessage}</p>
                 </>
