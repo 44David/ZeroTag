@@ -1,12 +1,12 @@
-'use client'
+"use client";
 
 import { Button } from "@/components/ui/button";
 import { KeyRound, Mail } from "lucide-react";
 import Link from "next/link";
-import { FormEvent, useState } from "react"
+import { FormEvent, useState } from "react";
 
 export default function Login() {
-    const [errorData, setErrorData] = useState('');
+    const [errorData, setErrorData] = useState("");
 
     async function onSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -16,16 +16,15 @@ export default function Login() {
         const response = await fetch("http://localhost:3000/api/login", {
             method: "POST",
             body: formData,
-        })
-        
+        });
+
         const data = await response.json();
-        console.log(data.error)
+        console.log(data.error);
         if (!(data.error == "No Error")) {
-            setErrorData(data.error)
+            setErrorData(data.error);
         } else {
-            window.location.replace('/')
+            window.location.replace("/");
         }
-        
     }
 
     return (
@@ -34,33 +33,35 @@ export default function Login() {
                 <h1 className="font-bold text-4xl mb-10">Login.</h1>
 
                 <div className="relative">
-                    <input 
-                        type="email" 
-                        className="pl-10 pr-4 py-2 w-full outline-0 border-b-2 border-white bg-black" 
+                    <input
+                        type="email"
+                        className="pl-10 pr-4 py-2 w-full outline-0 border-b-2 border-white bg-black"
                         id="email-addr"
                         name="email"
                         placeholder="Email Address"
                     />
                 </div>
 
-
                 <div className="relative">
-                    <input 
-                        type="password" 
-                        className="pl-10 pr-4 py-2 w-full outline-0 border-b-2 border-white bg-black" 
+                    <input
+                        type="password"
+                        className="pl-10 pr-4 py-2 w-full outline-0 border-b-2 border-white bg-black"
                         id="pass"
                         name="password"
                         placeholder="Password"
                     />
                 </div>
-    
+
                 <p className="text-red-600">{errorData}</p>
-                <p>Don't have an account? <Link href={'/auth/signup'}>Sign Up</Link></p>
+                <p>
+                    Don't have an account?{" "}
+                    <Link href={"/auth/signup"}>Sign Up</Link>
+                </p>
 
-                <Button className="bg-black text-white border-white border hover:bg-gray-900 px-12 rounded-xl ">Login</Button>
-
+                <Button className="bg-black text-white border-white border hover:bg-gray-900 px-12 rounded-xl ">
+                    Login
+                </Button>
             </div>
         </form>
-
-    )
+    );
 }
