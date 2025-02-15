@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { getUrl, s3Upload } from "@/lib/s3";
@@ -19,8 +19,17 @@ export default function Upload() {
     const [showFile, setShowFile] = useState("");
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+    const [ollamaModels, setOllamaModels] = useState([]);
 
-    const flaskServerAddr = process.env.NEXT_PUBLIC_FLASK_SERVER;
+    useEffect(() => {
+        async function fetchOllamaModels() {
+            const OllamaRes = await fetch("http://localhost:3000/api/ollama");
+            const res = await OllamaRes.json();
+            setOllamaModels(res.models);
+        }
+
+        fetchOllamaModels();
+    }, []);
 
     async function onSubmit(e: any) {
         e.preventDefault();
@@ -78,6 +87,8 @@ export default function Upload() {
             onSubmit={onSubmit}
             className="h-auto flex items-center justify-center flex-col space-y-2"
         >
+            {ollamaModels}
+
             <Image
                 src={showFile}
                 width={1000}
@@ -108,7 +119,7 @@ export default function Upload() {
                             htmlFor="fileUpload"
                             className="hover:cursor-pointer"
                         >
-                            Upload
+                            Choose files
                         </label>
                     </Button>
 
@@ -123,7 +134,7 @@ export default function Upload() {
             ) : (
                 <>
                     <Button
-                        className="inline-flex items-center w-1/2"
+                        className="inline-flex items-center w-1/2 bg-black hover:bg-slate-950"
                         type="button"
                     >
                         <ImageUp />
@@ -131,7 +142,7 @@ export default function Upload() {
                             htmlFor="fileUpload"
                             className="hover:cursor-pointer"
                         >
-                            Upload
+                            Choose files
                         </label>
                     </Button>
 
@@ -139,27 +150,12 @@ export default function Upload() {
                         className="block bg-white w-1/2 hover:bg-slate-200 text-black"
                         type="submit"
                     >
-                        Submit
+                        Upload
                     </Button>
 
-                    <DropdownMenu>
-                        <DropdownMenuTrigger className="inline-flex items-center text-sm">
-                            Choose a model <ChevronDown className="h-5 w-5" />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="bg-neutral-900 text-white">
-
-                            <DropdownMenuLabel>Cloud Models</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem>
-                                Tensorflow Model
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>Grounding DINO</DropdownMenuItem>
-                            <DropdownMenuSeparator />
-
-                            <DropdownMenuLabel>Local Models</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <select id="modelSelect">
+				        {ollamaModels.map((model: string) => <option value="${model}">${model}</option>).join('')}
+			        </select>
 
                     <p className="text-red-500">{errorMessage}</p>
                 </>
