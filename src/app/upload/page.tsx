@@ -87,8 +87,6 @@ export default function Upload() {
             onSubmit={onSubmit}
             className="h-auto flex items-center justify-center flex-col space-y-2"
         >
-            {ollamaModels}
-
             <Image
                 src={showFile}
                 width={1000}
@@ -153,9 +151,28 @@ export default function Upload() {
                         Upload
                     </Button>
 
-                    <select id="modelSelect">
-				        {ollamaModels.map((model: string) => <option value="${model}">${model}</option>).join('')}
-			        </select>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger className="inline-flex items-center text-sm">
+                            Choose a model <ChevronDown className="h-5 w-5" />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="bg-neutral-900 text-white">
+                            <DropdownMenuLabel>Cloud Models</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>
+                                Tensorflow Model
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>Grounding DINO</DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuLabel>Local Models</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+
+                            {ollamaModels.map((model, i) => {
+                                return <DropdownMenuItem>{model}</DropdownMenuItem>;
+                            })}
+
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+
 
                     <p className="text-red-500">{errorMessage}</p>
                 </>

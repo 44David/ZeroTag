@@ -7,7 +7,6 @@ export async function GET() {
     try {
         const listModels = await ollama.list();
         models = listModels.models.map((model: any) => model.name);
-        
     } catch (error) {
         
         models = ["No local models found."]
