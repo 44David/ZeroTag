@@ -11,9 +11,9 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-  } from "@/components/ui/select"
+} from "@/components/ui/select";
 import { SelectGroup, SelectLabel } from "@radix-ui/react-select";
-  
+import { Input } from "@/components/ui/input"
 
 
 export default function Upload() {
@@ -22,6 +22,7 @@ export default function Upload() {
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [ollamaModels, setOllamaModels] = useState([]);
+    const [selectValue, setSelectValue] = useState("");
 
     useEffect(() => {
         async function fetchOllamaModels() {
@@ -84,6 +85,7 @@ export default function Upload() {
         setFile(event.target.files[0]);
     }
 
+
     return (
         <form
             onSubmit={onSubmit}
@@ -106,6 +108,8 @@ export default function Upload() {
                 onChange={handleChange}
                 style={{ display: "none" }}
             />
+
+            {selectValue == "Grounding DINO" ? <Input className="w-1/4 py-2 bg-neutral-900" placeholder="Detection Prompt e.g. Chairs, People, Lights"/> : <h1></h1>}
 
             {loading ? (
                 <>
@@ -153,31 +157,36 @@ export default function Upload() {
                         Upload
                     </Button>
 
-     
+                    <Select value={selectValue} onValueChange={setSelectValue}>
+                        <SelectTrigger className="w-[180px] text-white bg-neutral-900 border-neutral-600">
+                            <SelectValue placeholder="Select a model" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-neutral-950 text-white p-4 border-none">
+                            <SelectGroup>
 
+                                <SelectItem value="Grounding DINO">
+                                    Grounding DINO
+                                </SelectItem>
 
-                    <Select>
-                    <SelectTrigger className="w-[180px] text-white bg-neutral-900 border-neutral-600">
-                        <SelectValue placeholder="Select a model" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-neutral-950 text-white p-4 border-none">
+                                <SelectLabel className="font-bold">
+                                    Local Models
+                                </SelectLabel>
 
-                        <SelectGroup>
-                            <SelectLabel className="font-bold">Local Models</SelectLabel>
-
-                            {ollamaModels.map((model, i) => {
-                                return <SelectItem value={model}>{model}</SelectItem>;
-                            })}
-                        </SelectGroup>
-
-                    </SelectContent>
+                                {ollamaModels.map((model, i) => {
+                                    return (
+                                        <SelectItem value={model}>
+                                            {model}
+                                        </SelectItem>
+                                    );
+                                })}
+                            </SelectGroup>
+                        </SelectContent>
                     </Select>
-
-
 
                     <p className="text-red-500">{errorMessage}</p>
                 </>
             )}
+
         </form>
     );
 }
