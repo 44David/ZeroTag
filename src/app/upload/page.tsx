@@ -6,13 +6,15 @@ import { Button } from "@/components/ui/button";
 import { getUrl, s3Upload } from "@/lib/s3";
 import { ImageUp, LoaderCircle, ChevronDown } from "lucide-react";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+  } from "@/components/ui/select"
+import { SelectGroup, SelectLabel } from "@radix-ui/react-select";
+  
+
 
 export default function Upload() {
     const [file, setFile] = useState("");
@@ -145,33 +147,32 @@ export default function Upload() {
                     </Button>
 
                     <Button
-                        className="block bg-white w-1/2 hover:bg-slate-200 text-black"
+                        className="inline-block bg-white w-1/2 hover:bg-slate-200 text-black align-middle"
                         type="submit"
                     >
                         Upload
                     </Button>
 
-                    <DropdownMenu>
-                        <DropdownMenuTrigger className="inline-flex items-center text-sm">
-                            Choose a model <ChevronDown className="h-5 w-5" />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="bg-neutral-900 text-white">
-                            <DropdownMenuLabel>Cloud Models</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem>
-                                Tensorflow Model
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>Grounding DINO</DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuLabel>Local Models</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
+     
+
+
+                    <Select>
+                    <SelectTrigger className="w-[180px] text-white bg-neutral-900 border-neutral-600">
+                        <SelectValue placeholder="Select a model" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-neutral-950 text-white p-4 border-none">
+
+                        <SelectGroup>
+                            <SelectLabel className="font-bold">Local Models</SelectLabel>
 
                             {ollamaModels.map((model, i) => {
-                                return <DropdownMenuItem>{model}</DropdownMenuItem>;
+                                return <SelectItem value={model}>{model}</SelectItem>;
                             })}
+                        </SelectGroup>
 
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    </SelectContent>
+                    </Select>
+
 
 
                     <p className="text-red-500">{errorMessage}</p>
