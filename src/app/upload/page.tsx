@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/select";
 import { SelectGroup, SelectLabel } from "@radix-ui/react-select";
 import { Input } from "@/components/ui/input"
-
+const imageToBase64 = require('image-to-base64');
 
 export default function Upload() {
     const [file, setFile] = useState("");
@@ -72,10 +72,44 @@ export default function Upload() {
             );
         }
 
+        // Sends image name to database for storage and future use.
         const apiResponse = await fetch("http://localhost:3000/api/upload", {
             method: "POST",
             body: JSON.stringify({ imageName: file.name }),
         });
+        
+        let base64Image;
+        imageToBase64(file)
+            .then(
+                (response: string) => {
+                    base64Image = response;
+                }
+
+            )
+            .catch(
+                (error: any) => {
+                    console.log(error);
+                } 
+            
+            ) 
+
+        const data = {
+            "image": base64Image,
+            "caption": "",// TO DO: Get value from input,
+            "box_threshold": 0.25,
+            "caption_threshold": 0.25
+        };
+
+        // Grounding DINO model api call
+        if (selectValue == "Grounding DINO") {
+            const groundingDinoApi = await fetch("http://127.0.0.1:8080/predictions/groundingdino", {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+        }
 
         setLoading(false);
     }
