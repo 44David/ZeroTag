@@ -53,8 +53,8 @@ async function Navbar() {
           <div className="flex justify-center flex-grow space-x-96 items-center text-lg">
             { email && (
               <>
-                <Link href={'/upload'}>Inference</Link>
-                <Link href={'/files'}>Your files</Link>
+                <Link href={'/upload'}>Image Inference</Link>
+                <Link href={'/files'}>Processed Images</Link>
               </>
             )}
           </div>

@@ -2,8 +2,6 @@ import { getEmail } from "../lib/session";
 import { getUrl, deleteImage } from "@/lib/s3";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 export default async function Files() {
     let res = await fetch("http://localhost:3000/api/files", {
@@ -17,7 +15,7 @@ export default async function Files() {
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
             {imageNames != "No images" ? (
-                imageNames.map(async (imageName, index) => (
+                imageNames.map(async (imageName:string, index:number) => (
                     <div key={index} className="relative w-full h-64">
                         <Link href={await getUrl(imageName)}>
                             <Image
@@ -26,7 +24,7 @@ export default async function Files() {
                                 objectFit="cover"
                                 width={700}
                                 height={700}
-                                className="rounded-lg shadow-lg shadow-custom-blue"
+                                className="rounded-lg shadow-sm shadow-white"
                             />
                         </Link>
                     </div>

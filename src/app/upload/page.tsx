@@ -1,18 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { getUrl, s3Upload } from "@/lib/s3";
-import { ImageUp, LoaderCircle, ChevronDown, InfoIcon } from "lucide-react";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import { SelectGroup, SelectLabel } from "@radix-ui/react-select";
+import { ImageUp, LoaderCircle } from "lucide-react";
 import { Input } from "@/components/ui/input"
 
 export default function Upload() {
@@ -129,7 +121,7 @@ export default function Upload() {
             ) : (
                 <>
                     <Button
-                        className="inline-flex items-center w-1/2 bg-neutral-800 hover:bg-neutral-900"
+                        className="inline-flex items-center w-1/2 bg-neutral-900 hover:bg-neutral-950"
                         type="button"
                     >
                         <ImageUp />
@@ -142,29 +134,18 @@ export default function Upload() {
                     </Button>
 
                     <Button
-                        className="inline-block bg-white w-1/2 hover:bg-slate-200 text-black align-middle"
+                        className="inline-block bg-white w-1/2 hover:bg-gray-200 text-black align-middle"
                         type="submit"
                     >
                         Upload
                     </Button>
 
 
-                    <Select value={selectValue} onValueChange={setSelectValue}>
-                        <SelectTrigger className="w-[180px] text-white bg-black border-neutral-600">
-                            <SelectValue placeholder="Select a model" />
-                        </SelectTrigger>
-                        <SelectContent className="bg-neutral-900 text-white p-4 border-none">
-                            <SelectGroup>
+                    <select className="p-1 px-4 bg-black rounded-lg border-2 border-neutral-700" value={selectValue} onChange={(e) => setSelectValue(e.target.value)}>
+                        <option value="" className="bg-black">Select a model</option>
+                        <option value="Grounding DINO">Grounding DINO</option>
+                    </select>
 
-                                <SelectItem value="Grounding DINO">
-                                    Grounding DINO (Nvidia T4)
-                                </SelectItem>
-
-                                <SelectLabel className="font-bold">
-                                </SelectLabel>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
 
                     <p className="text-red-500">{errorMessage}</p>
                 </>

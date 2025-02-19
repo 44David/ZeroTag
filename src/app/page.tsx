@@ -11,7 +11,7 @@ export default function Home() {
     <>
         
       <div className="flex min-h-screen flex-col items-center p-24">  
-        <h1 className="text-7xl">Zero-shot object detection Inference</h1>
+        <h1 className="text-7xl">Zero-shot object <br></br>detection Inference</h1>
         <p></p>
         <Link href={"/upload"}><Button className="bg-white text-black hover:bg-gray-300"><ArrowUpRight/>Try it out</Button></Link>
       </div>
