@@ -148,8 +148,9 @@ export default function Upload() {
                         Upload
                     </Button>
 
+
                     <Select value={selectValue} onValueChange={setSelectValue}>
-                        <SelectTrigger className="w-[180px] text-white bg-neutral-900 border-neutral-600">
+                        <SelectTrigger className="w-[180px] text-white bg-black border-neutral-600">
                             <SelectValue placeholder="Select a model" />
                         </SelectTrigger>
                         <SelectContent className="bg-neutral-900 text-white p-4 border-none">
