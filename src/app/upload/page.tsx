@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { getUrl, s3Upload } from "@/lib/s3";
-import { ImageUp, LoaderCircle, ChevronDown } from "lucide-react";
+import { ImageUp, LoaderCircle, ChevronDown, InfoIcon } from "lucide-react";
 import {
     Select,
     SelectContent,
@@ -14,25 +14,14 @@ import {
 } from "@/components/ui/select";
 import { SelectGroup, SelectLabel } from "@radix-ui/react-select";
 import { Input } from "@/components/ui/input"
-const imageToBase64 = require('image-to-base64');
 
 export default function Upload() {
     const [file, setFile] = useState("");
     const [showFile, setShowFile] = useState("");
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    const [ollamaModels, setOllamaModels] = useState([]);
     const [selectValue, setSelectValue] = useState("");
 
-    useEffect(() => {
-        async function fetchOllamaModels() {
-            const OllamaRes = await fetch("http://localhost:3000/api/ollama");
-            const res = await OllamaRes.json();
-            setOllamaModels(res.models);
-        }
-
-        fetchOllamaModels();
-    }, []);
 
     async function onSubmit(e: any) {
         e.preventDefault();
@@ -78,38 +67,6 @@ export default function Upload() {
             body: JSON.stringify({ imageName: file.name }),
         });
         
-        let base64Image;
-        imageToBase64(file)
-            .then(
-                (response: string) => {
-                    base64Image = response;
-                }
-
-            )
-            .catch(
-                (error: any) => {
-                    console.log(error);
-                } 
-            
-            ) 
-
-        const data = {
-            "image": base64Image,
-            "caption": "",// TO DO: Get value from input,
-            "box_threshold": 0.25,
-            "caption_threshold": 0.25
-        };
-
-        // Grounding DINO model api call
-        if (selectValue == "Grounding DINO") {
-            const groundingDinoApi = await fetch("http://127.0.0.1:8080/predictions/groundingdino", {
-                method: "POST",
-                body: JSON.stringify(data),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-        }
 
         setLoading(false);
     }
@@ -172,7 +129,7 @@ export default function Upload() {
             ) : (
                 <>
                     <Button
-                        className="inline-flex items-center w-1/2 bg-black hover:bg-slate-950"
+                        className="inline-flex items-center w-1/2 bg-neutral-800 hover:bg-neutral-900"
                         type="button"
                     >
                         <ImageUp />
@@ -195,24 +152,15 @@ export default function Upload() {
                         <SelectTrigger className="w-[180px] text-white bg-neutral-900 border-neutral-600">
                             <SelectValue placeholder="Select a model" />
                         </SelectTrigger>
-                        <SelectContent className="bg-neutral-950 text-white p-4 border-none">
+                        <SelectContent className="bg-neutral-900 text-white p-4 border-none">
                             <SelectGroup>
 
                                 <SelectItem value="Grounding DINO">
-                                    Grounding DINO
+                                    Grounding DINO (Nvidia T4)
                                 </SelectItem>
 
                                 <SelectLabel className="font-bold">
-                                    Local Models
                                 </SelectLabel>
-
-                                {ollamaModels.map((model, i) => {
-                                    return (
-                                        <SelectItem value={model}>
-                                            {model}
-                                        </SelectItem>
-                                    );
-                                })}
                             </SelectGroup>
                         </SelectContent>
                     </Select>
