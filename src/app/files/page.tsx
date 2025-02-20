@@ -13,6 +13,10 @@ export default async function Files() {
     const imageNames = data.Images;
 
     return (
+        <>
+        <h1 className="text-7xl text-center font-bold">Processed Images</h1>
+        <br></br>
+        <h3 className="text-center border-b-2 pb-4">The images you've processed using the models will show up here.</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
             {imageNames != "No images" ? (
                 imageNames.map(async (imageName:string, index:number) => (
@@ -35,5 +39,6 @@ export default async function Files() {
                 </div>
             )}
         </div>
+        </>
     );
 }

@@ -13,6 +13,9 @@ export default function Upload() {
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [selectValue, setSelectValue] = useState("");
+    const [ec2Api, setEc2Api] = useState("");
+
+    let ec2Instance = process.env.NEXT_PUBLIC_EC2_INSTANCE
 
 
     async function onSubmit(e: any) {
@@ -24,20 +27,23 @@ export default function Upload() {
 
         formData.append("image", file);
 
-        async function createFileBuffer(file: any) {
+        async function createFileBufferAndUpload(file: any) {
             const bytes = await file.arrayBuffer();
             const buffer = Buffer.from(bytes);
 
             await s3Upload(buffer, file.name, file.type);
         }
 
-        await createFileBuffer(file);
+        await createFileBufferAndUpload(file);
 
         const imageUrl = await getUrl(file.name);
 
-        try {
+
+        setEc2Api(ec2Instance + selectValue)
+        
+        try {            
             //@ts-ignore
-            const serverResponse = await fetch("http://127.0.0.1:5000/api", {
+            const ec2Response = await fetch(ec2Api, {
                 mode: "cors",
                 method: "POST",
                 body: JSON.stringify({ s3Url: imageUrl }),
@@ -52,6 +58,8 @@ export default function Upload() {
                 "An internal error has occurred, please try again later."
             );
         }
+
+    
 
         // Sends image name to database for storage and future use.
         const apiResponse = await fetch("http://localhost:3000/api/upload", {
@@ -92,7 +100,7 @@ export default function Upload() {
                 style={{ display: "none" }}
             />
 
-            {selectValue == "Grounding DINO" ? <Input className="w-1/4 py-2 bg-neutral-900" placeholder="Detection Prompt e.g. Chairs, People, Lights"/> : <h1></h1>}
+            {selectValue == "groundingdino" ? <Input className="w-1/4 py-2 bg-neutral-900" placeholder="Detection Prompt e.g. Chairs, People, Lights"/> : <h1></h1>}
 
             {loading ? (
                 <>
@@ -121,15 +129,14 @@ export default function Upload() {
             ) : (
                 <>
                     <Button
-                        className="inline-flex items-center w-1/2 bg-neutral-900 hover:bg-neutral-950"
-                        type="button"
+                         className="inline-flex items-center w-1/2" type="button"
                     >
                         <ImageUp />
                         <label
                             htmlFor="fileUpload"
                             className="hover:cursor-pointer"
                         >
-                            Choose files
+                        Upload
                         </label>
                     </Button>
 
@@ -143,7 +150,9 @@ export default function Upload() {
 
                     <select className="p-1 px-4 bg-black rounded-lg border-2 border-neutral-700" value={selectValue} onChange={(e) => setSelectValue(e.target.value)}>
                         <option value="" className="bg-black">Select a model</option>
-                        <option value="Grounding DINO">Grounding DINO</option>
+                        <option value="groundingdino">Grounding DINO</option>
+                        <option value="owl-vit">Owl-ViT</option>
+
                     </select>
 
 
