@@ -4,8 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { getUrl, s3Upload } from "@/lib/s3";
-import { ImageUp, LoaderCircle } from "lucide-react";
-import { Input } from "@/components/ui/input"
+import { ImageUp, InfoIcon, LoaderCircle } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 export default function Upload() {
     const [file, setFile] = useState("");
@@ -13,10 +13,10 @@ export default function Upload() {
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [selectValue, setSelectValue] = useState("");
+    const [detectionPrompt, setDetectionPrompt] = useState("");
     const [ec2Api, setEc2Api] = useState("");
 
-    let ec2Instance = process.env.NEXT_PUBLIC_EC2_INSTANCE
-
+    let ec2Instance = process.env.NEXT_PUBLIC_EC2_INSTANCE;
 
     async function onSubmit(e: any) {
         e.preventDefault();
@@ -38,15 +38,17 @@ export default function Upload() {
 
         const imageUrl = await getUrl(file.name);
 
+        setEc2Api(ec2Instance + selectValue);
 
-        setEc2Api(ec2Instance + selectValue)
-        
-        try {            
+        try {
             //@ts-ignore
             const ec2Response = await fetch(ec2Api, {
                 mode: "cors",
                 method: "POST",
-                body: JSON.stringify({ s3Url: imageUrl }),
+                body: JSON.stringify({
+                    s3Url: imageUrl,
+                    prompt: detectionPrompt,
+                }),
                 headers: {
                     "Access-Control-Allow-Origin": "*",
                     "Content-Type": "application/json",
@@ -59,14 +61,12 @@ export default function Upload() {
             );
         }
 
-    
 
         // Sends image name to database for storage and future use.
         const apiResponse = await fetch("http://localhost:3000/api/upload", {
             method: "POST",
             body: JSON.stringify({ imageName: file.name }),
         });
-        
 
         setLoading(false);
     }
@@ -75,7 +75,6 @@ export default function Upload() {
         setShowFile(URL.createObjectURL(event.target.files[0]));
         setFile(event.target.files[0]);
     }
-
 
     return (
         <form
@@ -100,7 +99,16 @@ export default function Upload() {
                 style={{ display: "none" }}
             />
 
-            {selectValue == "groundingdino" ? <Input className="w-1/4 py-2 bg-neutral-900" placeholder="Detection Prompt e.g. Chairs, People, Lights"/> : <h1></h1>}
+            {selectValue == "groundingdino" ? (
+                <Input
+                    className="w-1/4 py-2 bg-neutral-900"
+                    value={detectionPrompt}
+                    onChange={(e) => setDetectionPrompt(e.target.value)}
+                    placeholder="Detection Prompt e.g. Chairs, People, Lights"
+                />
+            ) : (
+                <h1></h1>
+            )}
 
             {loading ? (
                 <>
@@ -129,14 +137,15 @@ export default function Upload() {
             ) : (
                 <>
                     <Button
-                         className="inline-flex items-center w-1/2" type="button"
+                        className="inline-flex items-center w-1/2"
+                        type="button"
                     >
                         <ImageUp />
                         <label
                             htmlFor="fileUpload"
                             className="hover:cursor-pointer"
                         >
-                        Upload
+                            Select Images
                         </label>
                     </Button>
 
@@ -147,19 +156,23 @@ export default function Upload() {
                         Upload
                     </Button>
 
+                    <select
+                        className="p-1 px-4 bg-black rounded-lg border-2 border-neutral-700"
+                        value={selectValue}
+                        onChange={(e) => setSelectValue(e.target.value)}
+                    >
+                        <option value="" className="bg-black">
+                            Select a model
+                        </option>
 
-                    <select className="p-1 px-4 bg-black rounded-lg border-2 border-neutral-700" value={selectValue} onChange={(e) => setSelectValue(e.target.value)}>
-                        <option value="" className="bg-black">Select a model</option>
                         <option value="groundingdino">Grounding DINO</option>
+
                         <option value="owl-vit">Owl-ViT</option>
-
                     </select>
-
 
                     <p className="text-red-500">{errorMessage}</p>
                 </>
             )}
-
         </form>
     );
 }
