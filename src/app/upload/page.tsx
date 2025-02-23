@@ -39,33 +39,25 @@ export default function Upload() {
         const imageUrl = await getUrl(file.name);
 
         setEc2Api(ec2Instance + selectValue);
-
-        try {
-            //@ts-ignore
-            const ec2Response = await fetch(ec2Api, {
-                mode: "cors",
-                method: "POST",
-                body: JSON.stringify({
-                    s3Url: imageUrl,
-                    prompt: detectionPrompt,
-                }),
-                headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    "Content-Type": "application/json",
-                },
-            });
-        } catch (error) {
-            setLoading(false);
-            setErrorMessage(
-                "An internal error has occurred, please try again later."
-            );
-        }
-
-
+        
+        //@ts-ignore
+        const ec2Response = await fetch(ec2Api, {
+            mode: "cors",
+            method: "POST",
+            body: JSON.stringify({
+                s3Url: imageUrl,
+                prompt: detectionPrompt,
+            }),
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json",
+            },
+        });
+        
         // Sends image name to database for storage and future use.
         const apiResponse = await fetch("http://localhost:3000/api/upload", {
             method: "POST",
-            body: JSON.stringify({ imageName: file.name }),
+            body: JSON.stringify({ imageName: file.name, input: detectionPrompt }),
         });
 
         setLoading(false);
