@@ -38,6 +38,10 @@ export default function Upload() {
 
         const imageUrl = await getUrl(file.name);
         
+        
+        const splitPrompts = detectionPrompt.split(".")
+        console.log(splitPrompts);
+        
         //@ts-ignore
         const ec2Response = await fetch(ec2Api, {
             mode: "cors",
@@ -88,11 +92,8 @@ export default function Upload() {
                 onChange={handleChange}
                 style={{ display: "none" }}
             />
-
-            {selectValue == "groundingdino" ? (
-              <p className="text-xs">*Labels for GroundingDINO must be seperated by dots. ( Chair. Table. Plate. ) </p>
-            ) : <p></p>}
-            
+            <p className="text-xs">*Labels must be separated by periods. e.g Chair. Lamp. Couch </p>
+              
             {loading ? (
                 <>
                   {selectValue >= " " ? 
@@ -105,7 +106,9 @@ export default function Upload() {
                           disabled
                       />
                   ) : (
+                    
                       <h1></h1>
+                      
                   )}
 
                     <Button

@@ -11,8 +11,11 @@ export default async function Files() {
 
     const data = await res.json();
     const imageNames = data.Images;
-    const prompt = data.prompts
-
+    const prompts = data.prompts;
+    
+    console.log(imageNames);
+    
+    
     return (
         <>
         <h1 className="text-7xl text-center font-bold">Processed Images</h1>
@@ -32,7 +35,6 @@ export default async function Files() {
                                 className="rounded-lg shadow-sm shadow-white"
                             />
                         </Link>
-                    <p>{prompt}</p>
                     </div>
                 ))
             ) : (
