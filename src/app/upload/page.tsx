@@ -90,18 +90,24 @@ export default function Upload() {
             />
 
             {selectValue == "groundingdino" ? (
-                <Input
-                    className="w-1/4 py-2 bg-neutral-900"
-                    value={detectionPrompt}
-                    onChange={(e) => setDetectionPrompt(e.target.value)}
-                    placeholder="Detection Prompt e.g. Chairs, People, Lights"
-                />
-            ) : (
-                <h1></h1>
-            )}
-
+              <p className="text-xs">*Labels for GroundingDINO must be seperated by dots. ( Chair. Table. Plate. ) </p>
+            ) : <p></p>}
+            
             {loading ? (
                 <>
+                  {selectValue >= " " ? 
+                    (
+                      <Input
+                          className="w-1/4 py-2 bg-neutral-900"
+                          value={detectionPrompt}
+                          onChange={(e) => setDetectionPrompt(e.target.value)}
+                          placeholder="Labels (What should the model look for?)"
+                          disabled
+                      />
+                  ) : (
+                      <h1></h1>
+                  )}
+
                     <Button
                         className="inline-flex items-center w-1/2"
                         type="button"
@@ -126,6 +132,18 @@ export default function Upload() {
                 </>
             ) : (
                 <>
+                  {selectValue >= " " ? 
+                    (
+                      <Input
+                          className="w-1/4 py-2 bg-neutral-900"
+                          value={detectionPrompt}
+                          onChange={(e) => setDetectionPrompt(e.target.value)}
+                          placeholder="Labels (What should the model look for?)"
+                      />
+                  ) : (
+                      <h1></h1>
+                  )}
+
                     <Button
                         className="inline-flex items-center w-1/2"
                         type="button"
