@@ -17,7 +17,7 @@ export default function Upload() {
     const [ec2Api, setEc2Api] = useState("");
 
     let ec2Instance = process.env.NEXT_PUBLIC_EC2_INSTANCE;
-
+    
     async function onSubmit(e: any) {
         e.preventDefault();
 
@@ -37,8 +37,6 @@ export default function Upload() {
         await createFileBufferAndUpload(file);
 
         const imageUrl = await getUrl(file.name);
-
-        setEc2Api(ec2Instance + selectValue);
         
         //@ts-ignore
         const ec2Response = await fetch(ec2Api, {
@@ -151,7 +149,12 @@ export default function Upload() {
                     <select
                         className="p-1 px-4 bg-black rounded-lg border-2 border-neutral-700"
                         value={selectValue}
-                        onChange={(e) => setSelectValue(e.target.value)}
+                        onChange={ 
+                          (e) => { 
+                            setSelectValue(e.target.value);  
+                            setEc2Api(ec2Instance + e.target.value);
+                          }
+                        }
                     >
                         <option value="" className="bg-black">
                             Select a model
