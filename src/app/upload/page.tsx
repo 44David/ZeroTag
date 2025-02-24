@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { getUrl, s3Upload } from "@/lib/s3";
 import { ImageUp, InfoIcon, LoaderCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
+const randomstring = require("randomstring");
+
 
 export default function Upload() {
     const [file, setFile] = useState("");
@@ -26,21 +28,24 @@ export default function Upload() {
         const formData = new FormData();
 
         formData.append("image", file);
-
+        
+        const rand_string = randomstring.generate({
+          length: 12,
+          charset: ['numeric', 'alphabetic']
+        })
+        
         async function createFileBufferAndUpload(file: any) {
             const bytes = await file.arrayBuffer();
             const buffer = Buffer.from(bytes);
 
-            await s3Upload(buffer, file.name, file.type);
+            await s3Upload(buffer, rand_string + file.name , file.type);
         }
 
         await createFileBufferAndUpload(file);
 
-        const imageUrl = await getUrl(file.name);
-        
+        const imageUrl = await getUrl(rand_string + file.name);
         
         const splitPrompts = detectionPrompt.split(".")
-        console.log(splitPrompts);
         
         //@ts-ignore
         const ec2Response = await fetch(ec2Api, {
@@ -48,7 +53,7 @@ export default function Upload() {
             method: "POST",
             body: JSON.stringify({
                 s3Url: imageUrl,
-                prompt: detectionPrompt,
+                prompt: splitPrompts,
             }),
             headers: {
                 "Access-Control-Allow-Origin": "*",
@@ -59,7 +64,7 @@ export default function Upload() {
         // Sends image name to database for storage and future use.
         const apiResponse = await fetch("http://localhost:3000/api/upload", {
             method: "POST",
-            body: JSON.stringify({ imageName: file.name, input: detectionPrompt }),
+            body: JSON.stringify({ imageName: rand_string + file.name, input: detectionPrompt }),
         });
 
         setLoading(false);

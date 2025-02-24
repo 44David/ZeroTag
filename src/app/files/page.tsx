@@ -13,9 +13,6 @@ export default async function Files() {
     const imageNames = data.Images;
     const prompts = data.prompts;
     
-    console.log(imageNames);
-    
-    
     return (
         <>
         <h1 className="text-7xl text-center font-bold">Processed Images</h1>
