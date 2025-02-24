@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import pool from "./db";
+import pool from "./db"
 import { cookies } from "next/headers";
 
 export async function getEmail() {
@@ -20,5 +20,18 @@ export async function getEmail() {
     } catch (error) {
         return ""
     }
+}
+
+export async function getPrompt(imageName:string) {
+  try {
+    const [rows] = await pool.query('SELECT prompt from s3Storage WHERE s3_url=(?)', imageName);
+    const [row] = rows
+    
+    return row.prompt;
+  }
+  
+  catch(error) {
+    return "";
+  }
 }
 

@@ -1,5 +1,6 @@
-import { getEmail } from "../lib/session";
+import { getEmail, getPrompt } from "../lib/session";
 import { getUrl, deleteImage } from "@/lib/s3";
+import pool from "../lib/db";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -12,7 +13,7 @@ export default async function Files() {
     const data = await res.json();
     const imageNames = data.Images;
     const prompts = data.prompts;
-    
+
     return (
         <>
         <h1 className="text-7xl text-center font-bold">Processed Images</h1>
@@ -32,6 +33,7 @@ export default async function Files() {
                                 className="rounded-lg shadow-sm shadow-white"
                             />
                         </Link>
+                        <p className="">{getPrompt(imageName)}</p>
                     </div>
                 ))
             ) : (
