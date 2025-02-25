@@ -17,7 +17,8 @@ export default function Upload() {
     const [selectValue, setSelectValue] = useState("");
     const [detectionPrompt, setDetectionPrompt] = useState("");
     const [ec2Api, setEc2Api] = useState("");
-
+    const [widthValue, setWidthValue] = useState("5")
+    
     let ec2Instance = process.env.NEXT_PUBLIC_EC2_INSTANCE;
     
     async function onSubmit(e: any) {
@@ -151,7 +152,10 @@ export default function Upload() {
                   ) : (
                       <h1></h1>
                   )}
-
+                    
+              <input type="range" id="width" min="1" max="40" value={widthValue} onChange={(e) => { setWidthValue(e.target.value) }}/>
+              <label htmlFor="width" >Current annotation box width: {widthValue}px</label>
+                    
                     <Button
                         className="inline-flex items-center w-1/2"
                         type="button"
