@@ -1,6 +1,5 @@
 import { getEmail, getPrompt } from "../lib/session";
 import { getUrl, deleteImage } from "@/lib/s3";
-import pool from "../lib/db";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -26,7 +25,7 @@ export default async function Files() {
                         <Link href={await getUrl(imageName)}>
                             <Image
                                 src={await getUrl(imageName)}
-                                alt={`Image ${index}`}
+                                alt={`Image: ${imageName}`}
                                 objectFit="cover"
                                 width={700}
                                 height={700}

@@ -42,7 +42,7 @@ async function Navbar() {
     const emailAddr:string = await getEmail()
   
     return (
-        <nav className="flex justify-between p-4 w-full text-s border-b-2 border-neutral-900">
+        <nav className="flex justify-between p-4 w-full text-s border-b-2 border-neutral-900 bg-black">
           
           <div className="flex items-center space-x-4">
             { email && (
