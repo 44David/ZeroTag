@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { getUrl, s3Upload } from "@/lib/s3";
 import { ImageUp, InfoIcon, LoaderCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { redirect } from "next/navigation";
 const randomstring = require("randomstring");
 
 
@@ -17,7 +18,7 @@ export default function Upload() {
     const [selectValue, setSelectValue] = useState("");
     const [detectionPrompt, setDetectionPrompt] = useState("");
     const [ec2Api, setEc2Api] = useState("");
-    const [widthValue, setWidthValue] = useState("5")
+    const [widthValue, setWidthValue] = useState(5)
     
     let ec2Instance = process.env.NEXT_PUBLIC_EC2_INSTANCE;
     
@@ -48,27 +49,42 @@ export default function Upload() {
         
         const splitPrompts = detectionPrompt.split(".")
         
-        //@ts-ignore
-        const ec2Response = await fetch(ec2Api, {
+        try {
+          //@ts-ignore
+          const ec2Response = await fetch(ec2Api, {
             mode: "cors",
             method: "POST",
             body: JSON.stringify({
-                s3Url: imageUrl,
-                prompt: splitPrompts,
+              s3Url: imageUrl,
+              prompt: splitPrompts,
+              boxWidth: widthValue,
             }),
             headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+              "Content-Type": "application/json",
             },
-        });
-        
-        // Sends image name to database for storage and future use.
-        const apiResponse = await fetch("http://localhost:3000/api/upload", {
+          });
+        } catch (error) {
+          setLoading(false);
+          setErrorMessage("An error occurred when uploading. Please try again later.")
+        } 
+      
+        try {
+          // Sends image name to database for storage and future use.
+          const apiResponse = await fetch("http://localhost:3000/api/upload", {
             method: "POST",
             body: JSON.stringify({ imageName: rand_string + file.name, input: detectionPrompt }),
-        });
-
-        setLoading(false);
+          });
+          
+          setLoading(false);
+          
+          redirect("/");
+          
+        } catch (error) {
+          setLoading(false);
+          setErrorMessage("An error occurred when uploading. Please try again later.")
+        }
+        
     }
 
     async function handleChange(event: any) {
@@ -153,8 +169,8 @@ export default function Upload() {
                       <h1></h1>
                   )}
                     
-              <input type="range" id="width" min="1" max="40" value={widthValue} onChange={(e) => { setWidthValue(e.target.value) }}/>
-              <label htmlFor="width" >Current annotation box width: {widthValue}px</label>
+                    <input type="range" id="width" min="1" max="40" value={widthValue} onChange={(e) => { setWidthValue(e.target.value) }}/>
+                    <label htmlFor="width" >Current annotation box width: {widthValue}px</label>
                     
                     <Button
                         className="inline-flex items-center w-1/2"
