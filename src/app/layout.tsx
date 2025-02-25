@@ -29,7 +29,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-    title: "Image Labeling",
+    title: "ZeroTag",
     description: "",
 };
 

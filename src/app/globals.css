@@ -8,6 +8,15 @@ body {
     color: white;
 }
 
+#main-page {
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    background-image: linear-gradient(to right, #151515 1px, transparent 1px),
+    linear-gradient(to bottom, #151515 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
