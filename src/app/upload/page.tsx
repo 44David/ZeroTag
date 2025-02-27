@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import { useState } from "react";
 import Image from "next/image";
@@ -6,9 +6,8 @@ import { Button } from "@/components/ui/button";
 import { getUrl, s3Upload } from "@/lib/s3";
 import { ImageUp, InfoIcon, LoaderCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { redirect } from "next/navigation";
 const randomstring = require("randomstring");
-
+import { useToast } from "@/hooks/use-toast"
 
 export default function Upload() {
     const [file, setFile] = useState("");
@@ -18,7 +17,10 @@ export default function Upload() {
     const [selectValue, setSelectValue] = useState("");
     const [detectionPrompt, setDetectionPrompt] = useState("");
     const [ec2Api, setEc2Api] = useState("");
-    const [widthValue, setWidthValue] = useState(5)
+    const [widthValue, setWidthValue] = useState(5);
+    
+    
+    const { toast } = useToast()
     
     let ec2Instance = process.env.NEXT_PUBLIC_EC2_INSTANCE;
     
@@ -78,7 +80,15 @@ export default function Upload() {
           
           setLoading(false);
           
-          redirect("/");
+          toast({
+                    title: "Success!",
+                    description: "Image processed successfully.",
+          })
+          
+          setTimeout(() => {
+            window.location.reload()
+            
+          }, 2000)
           
         } catch (error) {
           setLoading(false);
@@ -91,8 +101,10 @@ export default function Upload() {
         setShowFile(URL.createObjectURL(event.target.files[0]));
         setFile(event.target.files[0]);
     }
-
+    
+    
     return (
+
         <form
             onSubmit={onSubmit}
             className="h-auto flex items-center justify-center flex-col space-y-2"
@@ -116,6 +128,7 @@ export default function Upload() {
             />
             <p className="text-xs">*Labels must be separated by periods. e.g Chair. Lamp. Couch </p>
               
+            
             {loading ? (
                 <>
                   {selectValue >= " " ? 

@@ -16,6 +16,7 @@ import {
     NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
 import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu"
+import { Toaster } from "@/components/ui/toaster"
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -88,6 +89,7 @@ export default function RootLayout({
             >
                 <Navbar />
                 {children}
+                <Toaster />
             </body>
         </html>
     );
