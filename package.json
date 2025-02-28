@@ -38,6 +38,7 @@
     "mysql2": "^3.11.4",
     "net": "^1.0.2",
     "next": "^15.1.7",
+    "next-auth": "^4.24.11",
     "oci-common": "^2.97.1",
     "oci-objectstorage": "^2.97.1",
     "oci-secrets": "^2.97.1",
