@@ -62,9 +62,9 @@ async function Navbar() {
       
           <div className="flex items-center space-x-4">
             { email ? (
-              <Button className="bg-black"><Link href={'/logout'}>Log Out</Link></Button>
+              <Button className="bg-black"><Link href={'api/auth/logout'}>Log Out</Link></Button>
             ) : (
-              <Button className="bg-black"><Link href={"/auth/signup"}>Sign In</Link></Button>
+              <Button className="bg-black"><Link href={"/api/auth/signin"}>Sign In</Link></Button>
             )}
           </div>
         </nav>
